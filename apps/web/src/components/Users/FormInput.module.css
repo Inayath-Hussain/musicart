@@ -1,0 +1,16 @@
+@import url("@web/styles.css");
+
+.label {
+    font-family: var(--roboto);
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    margin-bottom: 0.5rem;
+}
+
+
+.input {
+    border: 1px solid #B6B6B6;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+}

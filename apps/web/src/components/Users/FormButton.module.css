@@ -1,0 +1,23 @@
+@import url("@web/styles.css");
+
+.button {
+    font-family: var(--roboto);
+
+    border-radius: 4px;
+    padding: 0.5rem 0;
+
+    cursor: pointer;
+}
+
+.filled {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+
+.outline {
+    background: #fff;
+    color: #000;
+
+    border: 2px solid #BDBDBD;
+}

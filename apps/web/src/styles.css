@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+    --roboto: "Roboto", sans-serif;
+    --primary-color: #2E0052;
+}
+
+body,
+#root {
+    width: 100vw;
+    height: 100vh;
+}
