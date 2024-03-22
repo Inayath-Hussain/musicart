@@ -26,6 +26,9 @@
     padding: 0 5%;
 }
 
+.form_error {
+    margin-bottom: 0.7rem;
+}
 
 .form_header {
     font-size: 0.9rem;
@@ -46,6 +49,11 @@
     font-size: 0.8rem;
 }
 
+.form_input_error {
+    margin-bottom: 0 !important;
+    border-color: var(--error-color);
+}
+
 
 .link_button {
     width: 100%;
@@ -59,7 +67,6 @@
     font-weight: 400;
     font-family: var(--roboto);
     text-align: left;
-    text-transform: capitalize;
 
     margin: 1.3rem 0;
 }

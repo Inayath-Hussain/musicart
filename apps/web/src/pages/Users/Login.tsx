@@ -1,36 +1,87 @@
 import { useState } from "react";
-import * as yup from "yup";
+import { Link } from "react-router-dom";
+import z from "zod";
 
-import FormInput from "@web/components/Users/FormInput";
+import FormInput, { FormInputProps } from "@web/components/Users/FormInput";
 import FormButton from "@web/components/Users/FormButton";
+import { route } from "@web/routes";
 
 import styles from "./common.module.css";
 import loginStyles from "./Login.module.css";
-import { Link } from "react-router-dom";
-import { route } from "@web/routes";
+import FormError from "@web/components/Users/FormError";
 
 const LoginPage = () => {
 
-    const schema = yup.object({
-        email: yup.string().trim().email("email is invalid").required("email is required"),
-        password: yup.string().trim().min(8, "must be atleast 8 letters long").required()
-    })
+    // validation schema for form values
+    const schema = z.object({
+        identifier: z.string().trim().min(1, "identifier is required"),
+        password: z.string().trim().min(8, "must be atleast 8 letters long")
+    }).refine(({ identifier }) => {
 
-    type IForm = yup.InferType<typeof schema>
+        // checks if the identifier value is either a valid email or a valid mobile number
+        const emailSchema = z.string().trim().email()
+        const mobileNumberSchema = /^[0-9]+$/
+
+        const emailValidationResult = emailSchema.safeParse(identifier)
+
+        return emailValidationResult.success || mobileNumberSchema.test(identifier)
+    }, { message: "should be an email or mobile number", path: ["identifier"] })
+
+
+    type IForm = z.infer<typeof schema>
 
     const [formValues, setFormValues] = useState<IForm>({
-        email: "",
+        identifier: "",
         password: ""
     });
 
-    const handleChange = (key: keyof IForm, e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormValues({ ...formValues, [key]: e.target.value })
+    const initialFormErrors: IForm = {
+        identifier: "",
+        password: ""
     }
+
+    const [formErrors, setFormErrors] = useState<IForm>(initialFormErrors)
+
+
+    // updates form input values
+    const handleChange = (key: keyof IForm, e: React.ChangeEvent<HTMLInputElement>) => setFormValues({ ...formValues, [key]: e.target.value })
+
 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        try {
+            schema.parse(formValues)
+        }
+        catch (ex) {
+            switch (true) {
+                case (ex instanceof z.ZodError):
+                    const { identifier, password } = ex.formErrors.fieldErrors
+                    setFormErrors({
+                        identifier: identifier ? identifier[0] : "",
+                        password: password ? password[0] : ""
+                    })
+            }
+        }
     }
+
+
+    interface InputsArray {
+        label: FormInputProps["label"]
+        value: FormInputProps["value"]
+        onChange: FormInputProps["onChange"]
+        inputType: FormInputProps["type"]
+        errorMessage: string
+    }
+
+    const inputs: InputsArray[] = [
+        { label: "Enter your email or mobile number", inputType: "text", value: formValues.identifier, errorMessage: formErrors.identifier, onChange: e => handleChange("identifier", e) },
+        { label: "Password", inputType: "password", value: formValues.password, errorMessage: formErrors.password, onChange: e => handleChange("password", e) }
+    ]
+
+
+    const getInputClass = (error: string) => `${styles.form_input} ${error !== "" ? styles.form_input_error : ""}`
 
     return (
         <div className={styles.form_container}>
@@ -38,16 +89,23 @@ const LoginPage = () => {
             <h1 className={styles.welcome_text}>Welcome</h1>
 
             <form className={styles.form} onSubmit={handleSubmit}>
+
+                {/* form header */}
                 <h1 className={styles.form_header}>Sign in <span>Already a customer?</span> </h1>
 
-                <FormInput value={formValues.email} onChange={e => handleChange("email", e)} type="text"
-                    label="Enter your email or mobile number" className={styles.form_input} />
 
-                <FormInput value={formValues.password} onChange={e => handleChange("password", e)} type="password"
-                    label="Password" />
+                {/* inputs */}
+                {inputs.map(i => (
+                    <>
+                        <FormInput value={i.value} onChange={i.onChange} type={i.inputType} label={i.label} className={getInputClass(i.errorMessage)} />
+                        <FormError errorMessage={i.errorMessage} className={styles.form_error} />
+                    </>
+                ))}
 
+                {/* login button */}
                 <FormButton text="Continue" type="submit" className={styles.form_button} variant="filled" />
 
+                {/* terms and conditions */}
                 <p className={styles.terms}>By continuing, you agree to Musicart privacy notice and conditions of use.</p>
 
             </form>
@@ -61,6 +119,7 @@ const LoginPage = () => {
             </div>
 
 
+            {/* link to register page */}
             <Link to={route.users.register}>
                 <FormButton type="button" text="Create your Musicart account" variant="outline" className={styles.link_button} />
             </Link>

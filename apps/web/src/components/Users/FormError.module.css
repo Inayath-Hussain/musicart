@@ -1,0 +1,8 @@
+@import url("@web/styles.css");
+
+.error_message {
+    color: var(--error-color);
+    font-family: var(--inter);
+    font-size: 0.75rem;
+    font-weight: 500;
+}

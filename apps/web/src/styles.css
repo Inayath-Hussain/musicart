@@ -2,7 +2,10 @@
 
 :root {
     --roboto: "Roboto", sans-serif;
+    --inter: "Inter", sans-serif;
+
     --primary-color: #2E0052;
+    --error-color: #FF0000;
 }
 
 body,

@@ -1,6 +1,6 @@
 import styles from "./FormInput.module.css";
 
-interface Iprops {
+export interface FormInputProps {
     label: string
     value: string
     onChange: React.ChangeEventHandler<HTMLInputElement>
@@ -8,7 +8,7 @@ interface Iprops {
     type: React.HTMLInputTypeAttribute
 }
 
-const FormInput: React.FC<Iprops> = ({ label, onChange, value, className = "", type }) => {
+const FormInput: React.FC<FormInputProps> = ({ label, onChange, value, className = "", type }) => {
     return (
         <>
             <label className={styles.label}>{label}</label>
