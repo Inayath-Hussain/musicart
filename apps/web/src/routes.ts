@@ -5,5 +5,7 @@ export const route = {
         get login() { return this.index + "/login" },
 
         get register() { return this.index + "/register" }
-    }
+    },
+
+    home: "/"
 }

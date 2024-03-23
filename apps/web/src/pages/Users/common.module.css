@@ -28,6 +28,7 @@
 
 .form_error {
     margin-bottom: 0.7rem;
+    font-size: 0.75rem;
 }
 
 .form_header {
@@ -52,6 +53,12 @@
 .form_input_error {
     margin-bottom: 0 !important;
     border-color: var(--error-color);
+}
+
+
+.form_submition_error {
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 

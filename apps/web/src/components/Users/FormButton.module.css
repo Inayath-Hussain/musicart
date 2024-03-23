@@ -9,9 +9,18 @@
     cursor: pointer;
 }
 
+.button:disabled {
+    cursor: not-allowed;
+}
+
 .filled {
     background: var(--primary-color);
     color: #fff;
+}
+
+
+.loading {
+    cursor: wait !important;
 }
 
 

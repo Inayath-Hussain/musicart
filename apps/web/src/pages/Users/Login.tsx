@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import z from "zod";
 
 import FormInput, { FormInputProps } from "@web/components/Users/FormInput";
@@ -9,6 +9,10 @@ import { route } from "@web/routes";
 import styles from "./common.module.css";
 import loginStyles from "./Login.module.css";
 import FormError from "@web/components/Users/FormError";
+import { LoginBodyError, loginService } from "@web/services/user/login";
+import { useAbortController } from "@web/hooks/useAbortController";
+import { ApiError, CancelledError } from "@web/services/errors";
+import { useOnline } from "@web/hooks/useOnline";
 
 const LoginPage = () => {
 
@@ -27,8 +31,9 @@ const LoginPage = () => {
         return emailValidationResult.success || mobileNumberSchema.test(identifier)
     }, { message: "should be an email or mobile number", path: ["identifier"] })
 
-
     type IForm = z.infer<typeof schema>
+
+
 
     const [formValues, setFormValues] = useState<IForm>({
         identifier: "",
@@ -42,27 +47,65 @@ const LoginPage = () => {
 
     const [formErrors, setFormErrors] = useState<IForm>(initialFormErrors)
 
+    // state variable contain to display form submition error
+    const [submitionError, setSubmitionError] = useState("");
+
+    // state variable to indicate if a request is pending
+    const [loading, setLoading] = useState(false);
+
+
+    const navigate = useNavigate();
+    const { signalRef } = useAbortController();
+    const { isOnline } = useOnline();
+
+
+    useEffect(() => {
+        setSubmitionError(!isOnline ? "You are offline." : "")
+    }, [isOnline])
 
     // updates form input values
     const handleChange = (key: keyof IForm, e: React.ChangeEvent<HTMLInputElement>) => setFormValues({ ...formValues, [key]: e.target.value })
 
 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
             schema.parse(formValues)
+
+            setLoading(true)
+            const { identifier, password } = formValues
+            await loginService({ identifier, password }, signalRef.current.signal)
+
+            navigate(route.home)
+            setLoading(false)
         }
         catch (ex) {
+            setLoading(false);
             switch (true) {
                 case (ex instanceof z.ZodError):
                     const { identifier, password } = ex.formErrors.fieldErrors
-                    setFormErrors({
+                    return setFormErrors({
                         identifier: identifier ? identifier[0] : "",
                         password: password ? password[0] : ""
                     })
+
+
+                case (ex instanceof LoginBodyError):
+                    return setFormErrors({
+                        identifier: ex.errors.identifier || "",
+                        password: ex.errors.password || ""
+                    })
+
+                case (ex instanceof CancelledError):
+                    break;
+
+                case (ex instanceof ApiError):
+                    setSubmitionError(ex.message)
             }
+            console.log(ex)
+            setFormErrors(initialFormErrors)
         }
     }
 
@@ -90,20 +133,23 @@ const LoginPage = () => {
 
             <form className={styles.form} onSubmit={handleSubmit}>
 
+                <FormError errorMessage={submitionError} className={styles.form_submition_error} type="form" />
+
                 {/* form header */}
                 <h1 className={styles.form_header}>Sign in <span>Already a customer?</span> </h1>
 
 
                 {/* inputs */}
                 {inputs.map(i => (
-                    <>
+                    <Fragment key={i.label}>
                         <FormInput value={i.value} onChange={i.onChange} type={i.inputType} label={i.label} className={getInputClass(i.errorMessage)} />
-                        <FormError errorMessage={i.errorMessage} className={styles.form_error} />
-                    </>
+                        <FormError errorMessage={i.errorMessage} className={styles.form_error} type="field" />
+                    </Fragment>
                 ))}
 
                 {/* login button */}
-                <FormButton text="Continue" type="submit" className={styles.form_button} variant="filled" />
+                <FormButton text="Continue" type="submit" className={styles.form_button} variant="filled"
+                    disabled={!isOnline} loading={loading} />
 
                 {/* terms and conditions */}
                 <p className={styles.terms}>By continuing, you agree to Musicart privacy notice and conditions of use.</p>
