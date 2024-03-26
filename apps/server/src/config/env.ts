@@ -9,4 +9,8 @@ export const env = cleanEnv(process.env, {
     COOKIE_PARSER_SECRET: str(),
     JWT_ACCESS_TOKEN_SECRET: str(),
     JWT_REFRESH_TOKEN_SECRET: str(),
+    FIREBASE_STORAGE_BUCKET: str(),
+    FIREBASE_PROJECT_ID: str(),
+    FIREBASE_PRIVATE_KEY: str(),
+    FIREBASE_CLIENT_EMAIL: str(),
 })

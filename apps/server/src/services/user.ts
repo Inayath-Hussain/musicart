@@ -18,7 +18,7 @@ class UserService {
      * @param payload user details
      * @returns 
      */
-    async addNewUser(payload: IUser) {
+    async addNewUser(payload: Omit<IUser, "role">) {
         const salt = await genSalt(10)
         const hashedPassword = await hash(payload.password, salt)
 
