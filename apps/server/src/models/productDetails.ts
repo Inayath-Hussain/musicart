@@ -11,7 +11,9 @@ const productDetailsSchema = new Schema({
     headphone_type: { type: String, enum: headphoneTypeEnum, required: true },
     main_image: { type: String, requierd: true },
     other_images: [{ type: String, required: true }],
-    description: [{ type: String, required: true }]
+    description: [{ type: String, required: true }],
+
+    review: { type: Schema.Types.ObjectId, ref: "productReview", required: true }
 })
 
 

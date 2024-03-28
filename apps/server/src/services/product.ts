@@ -27,6 +27,13 @@ class ProductService {
 
         await reviewDoc.save()
     }
+
+
+    async getProducts() {
+        const productsList = await ProductDetails.find().populate({ path: "review", select: ["rating", "total_customer_reviews"] });
+
+        return productsList
+    }
 }
 
 
