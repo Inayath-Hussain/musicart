@@ -50,7 +50,7 @@ export class FirebaseMulterStorage implements StorageEngine {
                 try {
                     // get url of uploaded image
                     const url = await getDownloadURL(bucketFile);
-                    callback(null, { path: url });
+                    callback(null, { path: url, filename: bucketFile.name });
                 }
                 catch (ex) {
                     console.log(ex)
@@ -64,6 +64,6 @@ export class FirebaseMulterStorage implements StorageEngine {
 
 
     _removeFile(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, file: Express.Multer.File, callback: (error: Error | null) => void): void {
-        this.storage.bucket().file(file.path).delete({ ignoreNotFound: true })
+        this.storage.bucket().file(file.filename).delete({ ignoreNotFound: true })
     }
 }

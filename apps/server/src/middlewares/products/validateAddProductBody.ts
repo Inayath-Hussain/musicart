@@ -60,12 +60,12 @@ export const validateAddProductBody: RequestHandler<{}, {}, IAddProductBody> = a
     if (Object.keys(errorObj.errors).length > 0) {
 
         // delete mainImage from firebase if stored
-        if (mainImage) await deleteImageFromFirebase(mainImage[0].path)
+        if (mainImage) await deleteImageFromFirebase(mainImage[0].filename)
 
         // delete all other images from firebase if stored
         if (images) {
             images.forEach(async (i) => {
-                await deleteImageFromFirebase(i.path)
+                await deleteImageFromFirebase(i.filename)
             })
         }
 
