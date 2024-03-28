@@ -12,5 +12,6 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
         message
     } = err
 
+    console.log("errorHandler .... ", err)
     res.status(statusCode).json({ message: message || "Internal server error" })
 }

@@ -22,12 +22,12 @@ export class FirebaseMulterStorage implements StorageEngine {
     _handleFile(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, file: Express.Multer.File, callback: (error?: any, info?: Partial<Express.Multer.File> | undefined) => void): void {
 
         // checks if storage is provided when object was created
-        if (!this.storage) callback("Firebase storage is required in multer's custom storage engine")
+        if (!this.storage) return callback("Firebase storage is required in multer's custom storage engine")
 
 
         const fileExtension = path.extname(file.originalname)   // extracting file extension
         // creating a unique file name, this name is used to name the current file in firebase storage
-        const fileName = `${file.originalname}_${Date.now().toString()}${fileExtension}`
+        const fileName = `Products/${req.body.name}/${file.originalname}_${Date.now().toString()}${fileExtension}`
 
 
         const bucket = this.storage.bucket();
@@ -39,7 +39,7 @@ export class FirebaseMulterStorage implements StorageEngine {
 
         readableFileStream.pipe(writeableFileStream)
             .on("error", (err) => {
-                console.log(err)
+                console.log("multer on error ... ", err)
 
                 writeableFileStream.end()    // end write stream
                 bucketFile.delete({ ignoreNotFound: true })   // delete file created in firebase
@@ -47,14 +47,23 @@ export class FirebaseMulterStorage implements StorageEngine {
                 callback(err)
             })
             .on("finish", async () => {
-                const fileURL = await getDownloadURL(bucketFile)    // get download able url of uploaded image
-                callback(null, { path: fileURL })
+                try {
+                    // get url of uploaded image
+                    const url = await getDownloadURL(bucketFile);
+                    callback(null, { path: url });
+                }
+                catch (ex) {
+                    console.log(ex)
+
+                    callback({ message: "Error occured during Upload" });
+                }
+
             })
 
     }
 
 
     _removeFile(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, file: Express.Multer.File, callback: (error: Error | null) => void): void {
-
+        this.storage.bucket().file(file.path).delete({ ignoreNotFound: true })
     }
 }

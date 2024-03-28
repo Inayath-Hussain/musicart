@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
+
 import { commonValidator, descriptionValidator, headphoneTypeValidator, priceValidator, sanitizeAll } from "./validator";
 import { AddProductBodyError } from "./errors";
+import { deleteImageFromFirebase } from "../../utilities/storage/deleteImg";
 
 
 export interface IAddProductBody {
@@ -13,7 +15,7 @@ export interface IAddProductBody {
     headphoneType: string
 }
 
-export const validateAddProductBody: RequestHandler<{}, {}, IAddProductBody> = (req, res, next) => {
+export const validateAddProductBody: RequestHandler<{}, {}, IAddProductBody> = async (req, res, next) => {
     sanitizeAll(req.body)
 
     let { name, brand, color, fullTitle, price, description, headphoneType } = req.body;
@@ -48,14 +50,27 @@ export const validateAddProductBody: RequestHandler<{}, {}, IAddProductBody> = (
     if (headphoneTypeValidationResult.valid === false) errorObj.addFieldError("headphoneType", headphoneTypeValidationResult.errorMessage)
 
 
-    const { mainImage, images } = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const { mainImage, "images[]": images } = req.files as { [fieldname: string]: Express.Multer.File[] };
     if (!mainImage) errorObj.addFieldError("mainImage", "main image is required");
 
     if (!images) errorObj.addFieldError("images", "images field is required");
     else if (images.length !== 3) errorObj.addFieldError("images", "images field must contain 3 files")
 
 
-    if (Object.keys(errorObj.errors).length > 0) return res.status(422).json(errorObj)
+    if (Object.keys(errorObj.errors).length > 0) {
+
+        // delete mainImage from firebase if stored
+        if (mainImage) await deleteImageFromFirebase(mainImage[0].path)
+
+        // delete all other images from firebase if stored
+        if (images) {
+            images.forEach(async (i) => {
+                await deleteImageFromFirebase(i.path)
+            })
+        }
+
+        return res.status(422).json(errorObj)
+    }
 
 
     return next();

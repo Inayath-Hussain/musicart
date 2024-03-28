@@ -6,12 +6,6 @@ import { productService } from "../../services/product";
 
 
 export const addProductController: RequestHandler<{}, {}, IAddProductBody> = async (req, res, next) => {
-
-    console.log("file .... ", req.file)
-    console.log("files .... ", req.files)
-    console.log("body .... ", req.body)
-
-
     const email = req.email as string;
 
     const userDoc = await userService.getUserByEmailorNumber(email)
@@ -21,7 +15,7 @@ export const addProductController: RequestHandler<{}, {}, IAddProductBody> = asy
     if (userDoc.role !== "admin") return res.status(403).json({ message: "user is unauthorized to use this endpoint" })
 
 
-    const { mainImage, images } = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const { mainImage, "images[]": images } = req.files as { [fieldname: string]: Express.Multer.File[] };
     const mainImageURL = mainImage[0].path
 
     const imageURLs: string[] = []
@@ -30,5 +24,5 @@ export const addProductController: RequestHandler<{}, {}, IAddProductBody> = asy
 
     await productService.addProduct(req.body, mainImageURL, imageURLs)
 
-    res.status(200).json({ message: "success" })
+    return res.status(201).json({ message: "success" })
 }
