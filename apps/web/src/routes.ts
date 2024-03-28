@@ -7,5 +7,11 @@ export const route = {
         get register() { return this.index + "/register" }
     },
 
-    home: "/"
+    home: "/",
+
+    products: {
+        index: "/products",
+
+        get addNew() { return this.index + "/add-new" }
+    }
 }
