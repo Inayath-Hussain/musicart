@@ -1,5 +1,12 @@
+.hide {
+    display: none !important;
+}
+
+
 .main_content_container {
     flex: 1;
+
+    overflow-y: auto;
 }
 
 .page_layout {
@@ -11,7 +18,7 @@
 
 
 .rights_reserved_footer {
-    display: none !important;
+    display: none;
 }
 
 

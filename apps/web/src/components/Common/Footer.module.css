@@ -1,9 +1,12 @@
+/* @import url("@web/styles.css"); */
+
 .footer_container {
     background: var(--primary-color);
     display: flex;
     justify-content: center;
     align-items: center;
 
+    font-family: var(--roboto);
     font-size: 0.9rem;
     font-weight: 400;
     color: #fff;

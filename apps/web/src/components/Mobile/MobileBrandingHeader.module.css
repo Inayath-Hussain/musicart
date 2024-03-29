@@ -1,0 +1,36 @@
+@import url("@web/styles.css");
+
+.mobile_branding_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 0.5rem;
+
+    color: #fff;
+    text-transform: capitalize;
+    font-size: 1.2rem;
+
+    background: var(--primary-color);
+
+    padding: 0.7rem 1.2rem;
+    /* margin-bottom: 1.2rem; */
+}
+
+.mobile_branding_container>p {
+    font-size: inherit;
+    font-family: var(--roboto);
+}
+
+
+.mobile_logo {
+    height: 1.7rem;
+}
+
+
+@media screen and (min-width: 768px) {
+    .mobile_branding_container {
+        display: none;
+        visibility: hidden;
+    }
+}

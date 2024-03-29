@@ -1,0 +1,81 @@
+@import url("@web/styles.css");
+
+.hide {
+    display: none !important;
+}
+
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.contact_info_container {
+    justify-self: flex-start;
+
+    column-gap: 0.5rem;
+
+    margin-left: 0.7rem;
+}
+
+
+.container {
+    background: #2E0052;
+    display: none;
+
+    color: #fff;
+}
+
+
+.links_container {
+    column-gap: 0.9rem;
+
+    justify-self: flex-end;
+
+    font-size: 1.1rem;
+}
+
+.links_container a {
+    color: #fff;
+}
+
+
+.offers_container {
+    justify-self: center;
+
+    column-gap: 1.5rem;
+}
+
+
+.vertical_line_offers {
+    height: 1.2rem;
+    border: 1px solid #fff;
+}
+
+
+.vertical_line_links {
+    height: 0.8rem;
+    border: 1px solid #fff;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        display: grid;
+        grid-template: 1fr/ 1fr 1fr 1fr;
+        padding: 0.5rem 1rem;
+
+        font-size: 0.9rem;
+        font-family: var(--roboto);
+        font-weight: 400;
+
+        text-wrap: nowrap;
+    }
+
+
+    /* .container p {
+        text-wrap: nowrap;
+    } */
+}
