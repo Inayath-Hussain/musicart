@@ -1,0 +1,23 @@
+.main_content_container {
+    flex: 1;
+}
+
+.page_layout {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+.rights_reserved_footer {
+    display: none !important;
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .rights_reserved_footer {
+        display: flex !important;
+    }
+}

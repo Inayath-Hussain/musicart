@@ -59,6 +59,7 @@
     font-family: var(--roboto);
 
     height: 100%;
+    min-height: 100svh;
 }
 
 

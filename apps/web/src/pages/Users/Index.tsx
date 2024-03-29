@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 
 import Logo from "@web/assets/images/music-cart-logo.png"
 import styles from "./index.module.css";
+import Footer from "@web/components/Common/Footer";
 
 const UserPage = () => {
     return (
@@ -16,9 +17,7 @@ const UserPage = () => {
                 <Outlet />
             </main>
 
-            <footer className={styles.footer_container}>
-                Musicart | All rights reserved
-            </footer>
+            <Footer />
         </div>
     );
 }

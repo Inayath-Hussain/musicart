@@ -9,6 +9,12 @@ export const route = {
 
     home: "/",
 
+    cart: "/cart",
+
+    checkout: "/checkout",
+
+    invoices: "/invoices",
+
     products: {
         index: "/products",
 
