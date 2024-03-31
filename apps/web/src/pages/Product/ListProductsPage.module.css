@@ -1,0 +1,31 @@
+.horizontal_rule {
+    height: 1.5px;
+    border: 0;
+
+    background: #BBBABA;
+
+    margin-left: -2.5vw;
+    width: 100vw;
+}
+
+
+.input {
+    border: 3px solid #C8C8C8 !important;
+    border-radius: 2rem !important;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem 3rem !important;
+    margin-top: 2rem;
+
+    background-position: 1rem center !important;
+
+    font-size: 1rem;
+}
+
+
+@media screen and (min-width: 768px) {
+    .horizontal_rule {
+        display: none;
+    }
+}

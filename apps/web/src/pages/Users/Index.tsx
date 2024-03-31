@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
 
-import Logo from "@web/assets/images/music-cart-logo.png"
-import styles from "./index.module.css";
 import Footer from "@web/components/Common/Footer";
+import LogoAndName from "@web/components/Common/LogoAndName";
 import MobileBrandingHeader from "@web/components/Mobile/MobileBrandingHeader";
+
+import styles from "./index.module.css";
+
 
 const UserPage = () => {
     return (
@@ -13,10 +15,7 @@ const UserPage = () => {
                 <MobileBrandingHeader />
 
                 {/* this is rendered only in pc's */}
-                <div className={styles.branding_container}>
-                    <img src={Logo} alt="" className={styles.logo} />
-                    <p>Musicart</p>
-                </div>
+                <LogoAndName />
 
                 <Outlet />
             </main>

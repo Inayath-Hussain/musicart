@@ -3,5 +3,6 @@ export const apiURLs = {
     registerURL: "/api/user/register",
 
     // products
-    addProduct: "/api/product"
+    addProduct: "/api/product",
+    getProducts: "/api/product"
 }

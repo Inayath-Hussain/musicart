@@ -1,0 +1,17 @@
+.container {
+    margin-top: 1.75rem;
+
+    display: grid;
+    grid-template: 260px / 1fr 1fr;
+    gap: 1.1rem 3%;
+    place-items: center;
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .container {
+        gap: 2rem 4%;
+        grid-template: auto / 1fr 1fr 1fr 1fr;
+    }
+}

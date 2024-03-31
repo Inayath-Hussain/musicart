@@ -1,0 +1,17 @@
+.input {
+    flex: 1;
+
+    font-family: var(--roboto);
+    font-weight: 400;
+
+    /* padding: 0.4rem 0.8rem;
+    padding-left: 2rem;
+    border-radius: 4px;
+    border: 0; */
+
+    background: #fff url("@web/assets/icons/search.svg") no-repeat;
+    /* background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 0.25rem center;
+    background-image: url("@web/assets/icons/search.svg"); */
+}

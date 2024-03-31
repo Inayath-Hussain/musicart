@@ -1,5 +1,6 @@
 
 import styles from "./MobileSearchBarHeader.module.css";
+import SearchBar from "../Products/SearchBar";
 
 interface Iprops {
     className?: string
@@ -12,8 +13,7 @@ interface Iprops {
 const MobileSearchBarHeader: React.FC<Iprops> = ({ className = "" }) => {
     return (
         <header className={`${styles.container} ${className}`}>
-            <input type="text" placeholder="Search Musicart"
-                className={styles.input} />
+            <SearchBar placeholder="Search Musicart" className={styles.input} />
         </header>
     );
 }

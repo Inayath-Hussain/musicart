@@ -7,6 +7,10 @@
     flex: 1;
 
     overflow-y: auto;
+
+    padding: 2rem 2.5vw;
+
+    overflow-x: hidden;
 }
 
 .page_layout {
@@ -26,5 +30,9 @@
 @media screen and (min-width: 768px) {
     .rights_reserved_footer {
         display: flex !important;
+    }
+
+    .page_layout {
+        height: auto;
     }
 }
