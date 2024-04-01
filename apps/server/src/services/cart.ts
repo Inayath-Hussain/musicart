@@ -9,7 +9,7 @@ class CartService {
 
         // if already added increase the quantity
         if (existingDoc !== null) {
-            existingDoc.quantity = existingDoc.quantity + Number(quantity);
+            existingDoc.quantity = Number(quantity);
 
             return await existingDoc.save()
         }
@@ -18,6 +18,13 @@ class CartService {
         const newDoc = new Cart({ user: user_id, product: product_id, quantity })
 
         return await newDoc.save()
+    }
+
+
+    async getCartItems(user_id: Types.ObjectId) {
+        const items = await Cart.find({ user: user_id })
+
+        return items
     }
 }
 
