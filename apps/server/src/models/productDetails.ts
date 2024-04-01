@@ -9,7 +9,7 @@ const productDetailsSchema = new Schema({
     full_title: { type: String, required: true },
     color: { type: String, required: true },
     headphone_type: { type: String, enum: headphoneTypeEnum, required: true },
-    main_image: { type: String, requierd: true },
+    main_image: { type: String, required: true },
     other_images: [{ type: String, required: true }],
     description: [{ type: String, required: true }],
 
