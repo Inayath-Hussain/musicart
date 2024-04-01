@@ -11,14 +11,14 @@ import { AuthTokenProvider } from './context/authTokens';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AuthTokenProvider>
+    <Provider store={store}>
+      <AuthTokenProvider>
 
-      <Provider store={store}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </Provider>
 
-    </AuthTokenProvider>
+      </AuthTokenProvider>
+    </Provider>
   </React.StrictMode>
 )

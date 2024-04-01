@@ -1,19 +1,22 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./Profile.module.css";
 import { authTokenContext } from "@web/context/authTokens";
+import { useSelector } from "react-redux";
+import { userSliceSelector } from "@web/store/slices/userSlice";
 
 
 const Profile = () => {
 
     const { logout } = useContext(authTokenContext);
 
-    const name = "Devargnoering erongnk Rastogirfergrg"
+    const { name } = useSelector(userSliceSelector)
 
     const [open, setOpen] = useState(false);
     const profileRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
 
+    // close profile when user scrolls
+    useEffect(() => {
         const handleClose = () => setOpen(false);
 
         window.addEventListener("scroll", handleClose)
@@ -28,7 +31,7 @@ const Profile = () => {
 
         const [first, last] = name.split(" ")
 
-        return `${first[0].toUpperCase()} ${last[0].toUpperCase()}`
+        return `${first ? first[0].toUpperCase() : ""} ${last ? last[0].toUpperCase() : ""}`
     }
 
     return (

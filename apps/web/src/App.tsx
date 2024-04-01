@@ -9,8 +9,42 @@ import CartPage from './pages/Cart/CartPage';
 import InvoicesPage from './pages/Invoice/InvoicesPage';
 import ListProductsPage from './pages/Product/ListProductsPage';
 import ProductDetail from './pages/Product/ProductDetail';
+import { useGetProductsQuery } from './store/slices/productApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { productQuerySelector } from './store/slices/productQuery';
+import { useContext, useEffect } from 'react';
+import { authTokenContext } from './context/authTokens';
+import { getCartService } from './services/cart/getCartItems';
+import { updateCart } from './store/slices/cartItems';
+import { updateUserName } from './store/slices/userSlice';
 
 export function App() {
+
+  const dispatch = useDispatch();
+  const { queryString } = useSelector(productQuerySelector);
+  useGetProductsQuery(queryString);
+
+  const { accessToken, refreshToken } = useContext(authTokenContext);
+
+  useEffect(() => {
+
+    const call = async () => {
+      getCartService()
+        .then(result => {
+          dispatch(updateCart(result.data))
+          dispatch(updateUserName(result.username))
+        })
+        .catch(message => {
+          // error toast here
+        })
+    }
+
+    // make api call only when user is authenticated
+    if (accessToken || refreshToken) {
+      call()
+    }
+  }, [accessToken, refreshToken])
+
   return (
     <>
       <Routes>

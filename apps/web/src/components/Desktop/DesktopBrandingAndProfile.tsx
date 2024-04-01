@@ -1,7 +1,7 @@
 import { PropsWithChildren, useContext } from "react";
 import { useSelector } from "react-redux";
 
-import Profile from "../Products/Profile";
+import Profile from "./Profile";
 import Logo from "@web/assets/images/music-cart-logo.png";
 import ViewCart from "@web/assets/icons/view_cart.svg"
 import { Link } from "react-router-dom";

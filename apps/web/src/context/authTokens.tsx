@@ -1,5 +1,8 @@
+import { updateCart } from "@web/store/slices/cartItems";
+import { updateUserName } from "@web/store/slices/userSlice";
 import { PropsWithChildren, createContext } from "react";
 import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
 
 
 
@@ -19,9 +22,16 @@ export const AuthTokenProvider: React.FC<PropsWithChildren> = ({ children }) => 
     const { accessToken, refreshToken } = stateVariables[0];
     const removeCookie = stateVariables[2]
 
+    const dispatch = useDispatch()
+
     const logout = () => {
         removeCookie("accessToken")
         removeCookie("refreshToken")
+
+        // clear cart
+        dispatch(updateCart([]))
+        // clear name
+        dispatch(updateUserName(""))
     }
 
     return (

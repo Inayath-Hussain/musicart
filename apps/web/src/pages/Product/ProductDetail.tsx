@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { authTokenContext } from "@web/context/authTokens";
 import { route } from "@web/routes";
 import { addToCartService } from "@web/services/cart/addToCart";
-import { updateCartItem } from "@web/store/slices/cartItems";
+import { cartSelector, getQuantity, updateCartItem } from "@web/store/slices/cartItems";
 import { useGetProductsQuery } from "@web/store/slices/productApi";
 import { productQuerySelector } from "@web/store/slices/productQuery";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
@@ -30,20 +30,25 @@ const ProductDetail = () => {
     const dispatch = useDispatch();
 
     const { accessToken, refreshToken } = useContext(authTokenContext);
+
     const { queryString } = useSelector(productQuerySelector)
     const { data } = useGetProductsQuery(queryString)
+    const { items } = useSelector(cartSelector)
 
     const getData = () => {
         return data?.data.find(d => d._id === id)
     }
 
-    const productDetail = useMemo(getData, [id])
+    const productDetail = useMemo(getData, [id, data])
 
     const addToCart = async () => {
 
         if (accessToken || refreshToken) {
+
+            const quantity = getQuantity(productDetail?._id as string, items)
+
             // make api call
-            addToCartService({ product_id: productDetail?._id as string, quantity: 1 })
+            addToCartService({ product_id: productDetail?._id as string, quantity: quantity + 1 })
                 // dispatch
                 .then(result => dispatch(updateCartItem(result.data)))
                 .catch(message => { // toast message here 

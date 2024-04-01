@@ -10,6 +10,8 @@ import { authTokenContext } from "@web/context/authTokens";
 import { route } from "@web/routes";
 
 import styles from "./NavBar.module.css";
+import { useSelector } from "react-redux";
+import { cartSelector } from "@web/store/slices/cartItems";
 
 
 const NavBar = () => {
@@ -17,6 +19,7 @@ const NavBar = () => {
     const { pathname } = useLocation();
 
     const { accessToken, refreshToken, logout } = useContext(authTokenContext);
+    const { total } = useSelector(cartSelector)
 
 
     const getLineClass = (route: string) => route === pathname ? `${styles.line} ${styles.active_link_line}` : styles.line
@@ -38,7 +41,7 @@ const NavBar = () => {
             <Link to={getLink(route.cart)} className={styles.link} >
                 <div className={getLineClass(route.cart)} />
 
-                <div className={styles.total_cart_items}>0</div>
+                <div className={styles.total_cart_items}>{total}</div>
                 <img src={CartLogo} alt="" />
                 <p>Cart</p>
             </Link>

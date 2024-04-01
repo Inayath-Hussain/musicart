@@ -3,8 +3,8 @@ import CartIcon from "../Icons/Cart";
 
 import styles from "./Card.module.css";
 import { route } from "@web/routes";
-import { useDispatch } from "react-redux";
-import { updateCartItem } from "@web/store/slices/cartItems";
+import { useDispatch, useSelector } from "react-redux";
+import { cartSelector, getQuantity, updateCartItem } from "@web/store/slices/cartItems";
 import { addToCartService } from "@web/services/cart/addToCart";
 import { useContext } from "react";
 import { authTokenContext } from "@web/context/authTokens";
@@ -28,6 +28,8 @@ const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, i
 
     const { accessToken, refreshToken } = useContext(authTokenContext);
 
+    const { items } = useSelector(cartSelector);
+
 
 
     const addToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,7 +38,9 @@ const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, i
         // if user is authenticated send api request
         if (accessToken || refreshToken) {
 
-            addToCartService({ product_id: id, quantity: 1 }).then(result =>
+            const quantity = getQuantity(id, items)
+
+            addToCartService({ product_id: id, quantity: quantity + 1 }).then(result =>
                 dispatch(updateCartItem(result.data))
             ).catch(message => {
                 // toast message here

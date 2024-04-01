@@ -3,6 +3,7 @@ import { productQuerySlice } from "./slices/productQuery";
 import { productsApi } from "./slices/productApi";
 import { productView } from "./slices/productView";
 import { cartSlice } from "./slices/cartItems";
+import { userSlice } from "./slices/userSlice";
 
 
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
         [productQuerySlice.name]: productQuerySlice.reducer,
         [productsApi.reducerPath]: productsApi.reducer,
         [cartSlice.name]: cartSlice.reducer,
+        [userSlice.name]: userSlice.reducer,
 
         [productView.name]: productView.reducer
     },

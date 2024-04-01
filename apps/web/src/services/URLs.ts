@@ -7,4 +7,5 @@ export const apiURLs = {
     getProducts: "/api/product",
 
     addToCart: "/api/cart",
+    getCart: "/api/cart"
 }
