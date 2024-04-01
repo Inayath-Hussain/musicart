@@ -1,0 +1,11 @@
+.secondary_button {
+    background: var(--secondary-color);
+
+    border-radius: 8px;
+    padding: 0.7rem 2rem;
+
+    font-family: var(--roboto);
+    color: #000;
+
+    border: none;
+}

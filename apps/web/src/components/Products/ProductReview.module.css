@@ -1,0 +1,21 @@
+.flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.product_review_container {
+    column-gap: 1rem;
+
+    margin: 1rem 0;
+
+    font-size: 0.85rem;
+    font-family: var(--roboto);
+}
+
+
+.stars_container {
+    column-gap: 0.5rem;
+}

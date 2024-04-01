@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import CartIcon from "../Icons/Cart";
 
 import styles from "./Card.module.css";
+import { route } from "@web/routes";
 
 interface Iprops {
     imageURL: string
@@ -8,14 +10,15 @@ interface Iprops {
     price: number
     color: string
     headphoneType: string
+    id: string
 }
 
-const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType }) => {
+const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, id }) => {
 
     const formattedPrice = Intl.NumberFormat("en-In").format(price)
 
     return (
-        <div className={styles.card_container}>
+        <Link to={route.products.detail(id)} className={styles.card_container}>
 
             <div className={styles.image_container}>
                 <img src={imageURL} alt="" className={styles.image} />
@@ -40,7 +43,7 @@ const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType })
                 </div>
             </div>
 
-        </div>
+        </Link>
     );
 }
 

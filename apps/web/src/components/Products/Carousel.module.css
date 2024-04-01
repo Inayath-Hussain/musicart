@@ -1,0 +1,62 @@
+.carousel_button {
+    background: #fff;
+    border: none;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.carousel_container {
+    border: 2px solid #2E0052;
+    border-radius: 10px;
+}
+
+
+.controls_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    column-gap: 1rem;
+
+    margin: 1.5rem 0;
+}
+
+
+.dot {
+    width: 0.6rem;
+    height: 0.6rem;
+
+    border-radius: 50%;
+
+    background: #fff;
+    border: 1px solid #A1A1A1;
+}
+
+
+.dot:focus-within {
+    border-color: #000;
+}
+
+
+.dot_selected {
+    border-color: #000;
+    background: #000;
+}
+
+
+.input {
+    width: 0;
+    height: 0;
+}
+
+
+
+.next_button_image {
+    transform: rotateY(180deg);
+}

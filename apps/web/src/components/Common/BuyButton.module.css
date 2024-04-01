@@ -1,0 +1,13 @@
+.buy_now_button {
+    background: #FFB800;
+
+    border: none;
+
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-family: var(--roboto);
+
+    padding: 0.6rem 0;
+
+    cursor: pointer;
+}

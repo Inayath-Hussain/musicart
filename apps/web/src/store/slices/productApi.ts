@@ -12,10 +12,11 @@ import { apiURLs } from "@web/services/URLs";
 
 
 interface IProductData {
+    _id: string
     brand: string
     color: string
     name: string
-    fullTitle: string
+    full_title: string
     headphone_type: string
     price: number
     description: string[]

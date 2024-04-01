@@ -17,7 +17,7 @@ const ProductsList = () => {
 
             {data?.data.map(d => (
                 <Card key={d.name} color={d.color} name={d.name} imageURL={d.main_image}
-                    headphoneType={d.headphone_type} price={d.price} />
+                    headphoneType={d.headphone_type} price={d.price} id={d._id} />
             ))}
 
 

@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import CartPage from './pages/Cart/CartPage';
 import InvoicesPage from './pages/Invoice/InvoicesPage';
 import ListProductsPage from './pages/Product/ListProductsPage';
+import ProductDetail from './pages/Product/ProductDetail';
 
 export function App() {
   return (
@@ -29,6 +30,7 @@ export function App() {
         {/* other pages */}
         <Route path={route.home} element={<HomePage />} >
           <Route index element={<ListProductsPage />} />
+          <Route path={route.products.detail(":id")} element={<ProductDetail />} />
           <Route path={route.cart} element={<CartPage />} />
           <Route path={route.invoices} element={<InvoicesPage />} />
         </Route>

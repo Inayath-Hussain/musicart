@@ -18,6 +18,8 @@ export const route = {
     products: {
         index: "/products",
 
-        get addNew() { return this.index + "/add-new" }
+        get addNew() { return this.index + "/add-new" },
+
+        detail(id: string) { return this.index + "/" + id }
     }
 }

@@ -27,7 +27,7 @@ const ListProductsPage = () => {
 
 
     return (
-        <>
+        <div className={styles.list_product_layout}>
             {isDesktop && <LogoAndLink />}
 
             <Banner />
@@ -39,7 +39,7 @@ const ListProductsPage = () => {
             <hr className={styles.horizontal_rule} />
 
             <ProductsList />
-        </>
+        </div>
     );
 }
 
