@@ -65,6 +65,11 @@ class ProductService {
 
         return productsList
     }
+
+
+    async getProductById(id: string) {
+        return await ProductDetails.findById(id)
+    }
 }
 
 

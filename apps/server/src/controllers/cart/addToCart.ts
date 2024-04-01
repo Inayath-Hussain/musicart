@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { IAddToCartBody } from "../../middlewares/cart/validateAddToCartBody";
 import { userService } from "../../services/user";
 import { cartService } from "../../services/cart";
+import { productService } from "../../services/product";
 
 
 export const addToCartController: RequestHandler<{}, {}, IAddToCartBody> = async (req, res, next) => {
@@ -12,6 +13,10 @@ export const addToCartController: RequestHandler<{}, {}, IAddToCartBody> = async
     const userDoc = await userService.getUserByEmailorNumber(email)
 
     if (userDoc === null) return res.status(401).json({ message: "user doesn't exist" })
+
+    const productDoc = await productService.getProductById(product_id)
+
+    if (productDoc === null) return res.status(400).json({ message: "Product doesnot exist" })
 
     const doc = await cartService.addToCart(userDoc._id, product_id, quantity)
 
