@@ -1,8 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./Profile.module.css";
+import { authTokenContext } from "@web/context/authTokens";
 
 
 const Profile = () => {
+
+    const { logout } = useContext(authTokenContext);
 
     const name = "Devargnoering erongnk Rastogirfergrg"
 
@@ -38,7 +41,7 @@ const Profile = () => {
             {open && <div className={styles.profile} ref={profileRef}>
                 <p>{name}</p>
 
-                <button className={styles.logout_button}>
+                <button className={styles.logout_button} onClick={logout}>
                     Logout
                 </button>
             </div>}

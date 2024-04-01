@@ -11,7 +11,7 @@ import { env } from "@web/env";
 import { apiURLs } from "@web/services/URLs";
 
 
-interface IProductData {
+export interface IProductData {
     _id: string
     brand: string
     color: string
@@ -22,6 +22,7 @@ interface IProductData {
     description: string[]
     main_image: string
     other_images: string[]
+    available: boolean
 
     review: {
         id: string

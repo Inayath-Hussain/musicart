@@ -1,24 +1,35 @@
-import { useMemo } from "react";
-import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom"
+import { useContext, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 
-import GoBack from "@web/assets/icons/go_back.svg";
+
+import { authTokenContext } from "@web/context/authTokens";
+import { route } from "@web/routes";
+import { addToCartService } from "@web/services/cart/addToCart";
+import { updateCartItem } from "@web/store/slices/cartItems";
 import { useGetProductsQuery } from "@web/store/slices/productApi";
 import { productQuerySelector } from "@web/store/slices/productQuery";
+import useDeviceWidth from "@web/hooks/useDeviceWidth";
+import DesktopBranding from "@web/components/Desktop/DesktopBrandingAndProfile";
+import GoBackButton from "@web/components/ProductDetail/GoBackButton";
+import MobileProductDetail from "@web/components/Mobile/ProductDetail";
+import DesktopProductDetail from "@web/components/Desktop/ProductDetail";
+
 
 import styles from "./ProductDetail.module.css";
-import BuyNowButton from "@web/components/Common/BuyNowButton";
-import { route } from "@web/routes";
-import Carousel from "@web/components/Products/Carousel";
-import ProductReview from "@web/components/Products/ProductReview";
-import DescriptionPoints from "@web/components/Products/DescriptionPoints";
-import SecondaryButton from "@web/components/Common/SecondaryButton";
 
 
 const ProductDetail = () => {
 
-    const { id } = useParams();
+    const { isDesktop } = useDeviceWidth();
 
+    const { id } = useParams();
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const { accessToken, refreshToken } = useContext(authTokenContext);
     const { queryString } = useSelector(productQuerySelector)
     const { data } = useGetProductsQuery(queryString)
 
@@ -28,7 +39,19 @@ const ProductDetail = () => {
 
     const productDetail = useMemo(getData, [id])
 
-    const addToCart = () => {
+    const addToCart = async () => {
+
+        if (accessToken || refreshToken) {
+            // make api call
+            addToCartService({ product_id: productDetail?._id as string, quantity: 1 })
+                // dispatch
+                .then(result => dispatch(updateCartItem(result.data)))
+                .catch(message => { // toast message here 
+                })
+        }
+        else {
+            navigate(route.users.login + `?path=${pathname}`)
+        }
 
     }
 
@@ -36,11 +59,15 @@ const ProductDetail = () => {
     return (
         <div className={styles.page_layout}>
 
-            <Link to={route.home} className={styles.go_back_link}>
-                <button className={styles.go_back_button}>
-                    <img src={GoBack} alt="" />
-                </button>
-            </Link>
+
+            {isDesktop &&
+                <DesktopBranding>
+                    Home/{productDetail?.name}
+                </DesktopBranding>
+            }
+
+
+            <GoBackButton />
 
 
             <div className={styles.content_padding}>
@@ -49,40 +76,10 @@ const ProductDetail = () => {
                     <h1>Product Doesn't Exist</h1>
                     :
 
-                    <>
-                        <BuyNowButton className={styles.buy_now_button_top} />
-
-                        {/* images */}
-                        <Carousel images={[productDetail.main_image, ...productDetail.other_images]} />
-
-                        {/* product name */}
-                        <p className={styles.name}>{productDetail.name}</p>
-
-                        {/* customer ratings */}
-                        <ProductReview rating={productDetail.review.rating} total_customers_rating={productDetail.review.total_customer_reviews} />
-
-                        {/* full title */}
-                        <p className={styles.full_title}>{productDetail.full_title}</p>
-
-                        {/* color and headphone type */}
-                        <div className={styles.color_and_type}>
-                            <p className={styles.capitalize}>{productDetail.color}</p> | <p className={styles.capitalize}>{productDetail.headphone_type}</p> headphone
-                        </div>
-
-
-                        {/* about product */}
-                        <DescriptionPoints points={productDetail.description} />
-
-                        <p><b>Available</b> - In stock</p>
-
-                        <p><b>Brand</b> - {productDetail.brand}</p>
-
-
-                        <SecondaryButton text="Add to cart" handleClick={addToCart} className={styles.add_to_cart_button} />
-
-                        <BuyNowButton className={styles.buy_now_button_bottom} />
-
-                    </>
+                    isDesktop ?
+                        <DesktopProductDetail productDetail={productDetail} addToCart={addToCart} />
+                        :
+                        <MobileProductDetail productDetail={productDetail} addToCart={addToCart} />
                 }
             </div>
         </div>

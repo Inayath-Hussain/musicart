@@ -1,58 +1,30 @@
 import { Link } from "react-router-dom";
 
-import Logo from "@web/assets/images/music-cart-logo.png";
-import ViewCart from "@web/assets/icons/view_cart.svg"
+import DesktopBranding from "../Desktop/DesktopBrandingAndProfile";
 import { route } from "@web/routes";
+import { useContext } from "react";
+import { authTokenContext } from "@web/context/authTokens";
 
-import styles from "./LogoAndLink.module.css";
-import Profile from "./Profile";
 
 
 const LogoAndLink = () => {
+
+    const { accessToken, refreshToken } = useContext(authTokenContext);
+
     return (
-        <div className={`${styles.flex} ${styles.logo_and_links_section_container}`}>
-
-            <div className={`${styles.flex} ${styles.logo_and_links_container}`}>
-                <div className={styles.logo_container}>
-                    <img src={Logo} alt="" />
-
-                    <div className={`${styles.flex} ${styles.text_container}`}>
-
-                        <h1>Musicart</h1>
-
-                        <Link to={route.home}>
-                            Home
-                        </Link>
-
-                        {/*  */}
-                        <Link to={route.invoices}>
-                            Invoice
-                        </Link>
-
-                    </div>
-                </div>
-            </div>
+        <DesktopBranding>
+            <Link to={route.home}>
+                Home
+            </Link>
 
 
-
-
-            <div className={`${styles.flex} ${styles.cart_and_profile_container}`}>
-
-                <Link to={route.cart} className={`${styles.flex} ${styles.cart_link}`}>
-                    <img src={ViewCart} alt="" />
-
-                    <p>View Cart</p>
-
-                    0
+            {(accessToken || refreshToken) &&
+                <Link to={route.invoices}>
+                    Invoice
                 </Link>
-
-
-                <Profile />
-
-            </div>
-
-        </div>
-    );
+            }
+        </DesktopBranding>
+    )
 }
 
 export default LogoAndLink;

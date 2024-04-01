@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import z from "zod";
 
 import FormInput, { FormInputProps } from "@web/components/Users/FormInput";
@@ -15,6 +15,9 @@ import { ApiError, CancelledError } from "@web/services/errors";
 import { useOnline } from "@web/hooks/useOnline";
 
 const LoginPage = () => {
+
+    const [queryString] = useSearchParams();
+    const nextRoute = queryString.get("path")
 
     // validation schema for form values
     const schema = z.object({
@@ -59,9 +62,11 @@ const LoginPage = () => {
     const { isOnline } = useOnline();
 
 
+    // used to set error message if user is offline
     useEffect(() => {
         setSubmitionError(!isOnline ? "You are offline." : "")
     }, [isOnline])
+
 
     // updates form input values
     const handleChange = (key: keyof IForm, e: React.ChangeEvent<HTMLInputElement>) => setFormValues({ ...formValues, [key]: e.target.value })
@@ -78,7 +83,7 @@ const LoginPage = () => {
             const { identifier, password } = formValues
             await loginService({ identifier, password }, signalRef.current.signal)
 
-            navigate(route.home)
+            navigate(nextRoute || route.home)
             setLoading(false)
         }
         catch (ex) {
@@ -126,6 +131,8 @@ const LoginPage = () => {
 
     const getInputClass = (error: string) => `${styles.form_input} ${error !== "" ? styles.form_input_error : ""}`
 
+    const registerLink = nextRoute ? `${route.users.register}?path=${nextRoute}` : route.users.register
+
     return (
         <div className={styles.form_container}>
 
@@ -166,7 +173,7 @@ const LoginPage = () => {
 
 
             {/* link to register page */}
-            <Link to={route.users.register}>
+            <Link to={registerLink}>
                 <FormButton type="button" text="Create your Musicart account" variant="outline" className={styles.link_button} />
             </Link>
 

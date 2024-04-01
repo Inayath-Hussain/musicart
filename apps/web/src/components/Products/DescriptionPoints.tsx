@@ -12,7 +12,7 @@ const DescriptionPoints: React.FC<Iprops> = ({ points }) => {
             <p>About this item</p>
             <ul>
                 {points.map(p => (
-                    <li className={styles.point}>{p}</li>
+                    <li className={styles.point} key={p}>{p}</li>
                 ))}
             </ul>
         </>

@@ -1,0 +1,76 @@
+.buy_button {
+    width: 50%;
+    display: block;
+    font-size: 1.1rem;
+}
+
+
+
+.big_font {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+
+.cart_button {
+    width: 50%;
+    display: block;
+    font-size: 1.1rem;
+
+    margin-bottom: 1rem;
+}
+
+.color_and_type {
+    font-size: 1.2rem;
+}
+
+
+.full_title {
+    font-size: 1.7rem;
+    font-weight: 600;
+
+    margin: 2rem 0;
+}
+
+
+.images_and_description {
+    display: grid;
+
+    grid-template: 1fr / 1fr 1fr;
+    place-items: center;
+}
+
+
+.main_image {
+    width: 35svw;
+    border: 2px solid #000;
+    border-radius: 1rem;
+}
+
+
+.name {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+
+.side_images_container {
+    margin-top: 1.5rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    column-gap: 1rem;
+}
+
+
+.side_image {
+    width: 10svw;
+
+    border: 2px solid #000;
+    border-radius: 0.5rem;
+
+    cursor: pointer;
+}

@@ -6,10 +6,14 @@ import MobileSearchBarHeader from "../Mobile/MobileSearchBarHeader";
 import { route } from "@web/routes";
 
 import styles from "./Header.module.css"
+import { useContext } from "react";
+import { authTokenContext } from "@web/context/authTokens";
 
 const Header = () => {
 
     const { pathname } = useLocation();
+
+    const { accessToken, refreshToken, logout } = useContext(authTokenContext);
 
     const shouldDisplayBrandingHeader = pathname === route.checkout || pathname === route.invoices
 
@@ -57,15 +61,26 @@ const Header = () => {
 
                 {/* login and register links */}
                 <div className={`${styles.flex} ${styles.links_container}`}>
-                    <Link to={route.users.login}>
-                        <p>Login</p>
-                    </Link>
 
-                    <div className={styles.vertical_line_links} />
+                    {
+                        (accessToken || refreshToken) ?
 
-                    <Link to={route.users.register}>
-                        <p>Signup</p>
-                    </Link>
+                            <button className={styles.logout_button} onClick={logout}>
+                                Logout
+                            </button>
+                            :
+                            <>
+                                <Link to={route.users.login}>
+                                    <p>Login</p>
+                                </Link>
+
+                                <div className={styles.vertical_line_links} />
+
+                                <Link to={route.users.register}>
+                                    <p>Signup</p>
+                                </Link>
+                            </>
+                    }
                 </div>
 
             </div>

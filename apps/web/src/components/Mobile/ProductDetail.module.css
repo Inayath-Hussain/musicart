@@ -1,0 +1,35 @@
+.add_to_cart_button {
+    margin-top: 1rem;
+    width: 100%;
+
+    font-size: 1.1rem;
+}
+
+
+.buy_now_button_top {
+    margin: 2rem 0 1.5rem;
+    width: 100%;
+}
+
+
+.buy_now_button_bottom {
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+
+.capitalize::first-letter {
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+
+.color_and_type {
+    margin: 0.7rem 0;
+}
+
+
+.full_title {
+    font-size: 1rem;
+    font-weight: 400;
+}

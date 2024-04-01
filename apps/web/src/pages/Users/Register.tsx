@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import z from "zod";
 
 import FormButton from "@web/components/Users/FormButton";
@@ -15,6 +15,9 @@ import { useOnline } from "@web/hooks/useOnline";
 import { ApiError, CancelledError } from "@web/services/errors";
 
 const RegisterPage = () => {
+
+    const [queryString] = useSearchParams();
+    const nextRoute = queryString.get("path");
 
     const baseRequirement = (fieldName: string) => z.string().trim().min(1, { message: `${fieldName} is required` })
 
@@ -76,7 +79,7 @@ const RegisterPage = () => {
             const { name, mobileNumber, email, password } = formValues;
             await registerService({ name, mobileNumber, email, password }, signalRef.current.signal)
 
-            navigate(route.home)
+            navigate(nextRoute || route.home)
             setLoading(false)
         }
         catch (ex) {
@@ -130,6 +133,9 @@ const RegisterPage = () => {
         { label: "Password", value: formValues.password, inputType: "password", errorMessage: formErrors.password, onChange: (e) => handleChange("password", e), },
     ]
 
+
+    const loginLink = nextRoute ? `${route.users.login}?path=${nextRoute}` : route.users.login
+
     return (
         <div className={styles.form_container} >
             <h1 className={styles.welcome_text}>Welcome</h1>
@@ -165,7 +171,7 @@ const RegisterPage = () => {
             {/* link to login page */}
             <p className={registerStyles.link_text}>
                 Already have an account?
-                <Link to={route.users.login} className={registerStyles.link}>
+                <Link to={loginLink} className={registerStyles.link}>
                     Sign in
                 </Link>
             </p>

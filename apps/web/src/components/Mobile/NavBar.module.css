@@ -5,6 +5,14 @@
     background-color: #2E0052 !important;
 }
 
+
+.button {
+    background: #fff;
+    border: none;
+    padding: 0;
+}
+
+
 .footer_container {
     display: flex;
     flex-direction: row;

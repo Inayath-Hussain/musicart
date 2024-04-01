@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CartIcon from "../Icons/Cart";
 
 import styles from "./Card.module.css";
 import { route } from "@web/routes";
+import { useDispatch } from "react-redux";
+import { updateCartItem } from "@web/store/slices/cartItems";
+import { addToCartService } from "@web/services/cart/addToCart";
+import { useContext } from "react";
+import { authTokenContext } from "@web/context/authTokens";
 
 interface Iprops {
     imageURL: string
@@ -15,6 +20,37 @@ interface Iprops {
 
 const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, id }) => {
 
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { pathname } = useLocation();
+
+    const { accessToken, refreshToken } = useContext(authTokenContext);
+
+
+
+    const addToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        // if user is authenticated send api request
+        if (accessToken || refreshToken) {
+
+            addToCartService({ product_id: id, quantity: 1 }).then(result =>
+                dispatch(updateCartItem(result.data))
+            ).catch(message => {
+                // toast message here
+            })
+            return
+        }
+
+        // else
+        navigate(route.users.login + `?path=${pathname}`)
+
+    }
+
+
+
     const formattedPrice = Intl.NumberFormat("en-In").format(price)
 
     return (
@@ -23,7 +59,7 @@ const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, i
             <div className={styles.image_container}>
                 <img src={imageURL} alt="" className={styles.image} />
 
-                <button className={styles.add_to_cart_button}>
+                <button className={styles.add_to_cart_button} onClick={addToCart}>
                     <CartIcon fill="#1D7000" width={30} />
                 </button>
             </div>
