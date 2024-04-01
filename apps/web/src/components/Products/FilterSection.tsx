@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import CustomSelect, { ICustomSelectoption } from "./CustomSelect";
 import ViewButtons from "./ViewButtons";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
 import { useGetProductsQuery } from "@web/store/slices/productApi";
-import { updateProductQuery, IUpdateProductQueryActionPayload, productQuerySelector } from "@web/store/slices/productQuery";
+import { updateProductQuery, IUpdateProductQueryActionPayload, productQuerySelector, updateOptions } from "@web/store/slices/productQuery";
 
 import styles from "./FilterSection.module.css";
 
@@ -14,7 +14,7 @@ const FilterSection = () => {
 
     const { isDesktop } = useDeviceWidth();
 
-    const { queryOptions, queryString } = useSelector(productQuerySelector);
+    const { queryOptions, queryString, options } = useSelector(productQuerySelector);
     const dispatch = useDispatch()
 
     // dispatch function for updateProductQuery action
@@ -34,16 +34,6 @@ const FilterSection = () => {
     })
 
 
-    // state variable to indicate first api call was made, this is used to avoid extracting after 
-    const [extracted, setExtracted] = useState(false);
-
-    // options for company, extracted after first api call 
-    const [companyOptions, setCompnayOptions] = useState<ICustomSelectoption>({});
-
-    // options for company
-    const [colorOptions, setColorOptions] = useState<ICustomSelectoption>({});
-
-
     const { isSuccess, data } = useGetProductsQuery(queryString);
 
     useEffect(() => {
@@ -51,15 +41,13 @@ const FilterSection = () => {
         const company: ICustomSelectoption = {}
         const color: ICustomSelectoption = {}
 
-        if (isSuccess && !extracted) {
+        if (isSuccess && !options.extracted) {
             data.data.forEach(d => {
                 company[d.brand] = d.brand
                 color[d.color] = d.color
             })
 
-            setCompnayOptions(company)
-            setColorOptions(color)
-            setExtracted(true)
+            dispatch(updateOptions({ extracted: true, color, company }))
         }
 
     }, [isSuccess])
@@ -113,12 +101,12 @@ const FilterSection = () => {
                         className={styles.filter_input} />
 
                     {/* company */}
-                    <CustomSelect defaultText="Company" options={companyOptions} handleChange={e => handleChange(e).company()} value={queryOptions.company}
+                    <CustomSelect defaultText="Company" options={options.company} handleChange={e => handleChange(e).company()} value={queryOptions.company}
                         className={styles.filter_input} />
 
 
                     {/* color */}
-                    <CustomSelect defaultText="Color" options={colorOptions} handleChange={e => handleChange(e).color()} value={queryOptions.color}
+                    <CustomSelect defaultText="Color" options={options.color} handleChange={e => handleChange(e).color()} value={queryOptions.color}
                         className={styles.filter_input} />
 
                     {/* price */}
@@ -126,8 +114,6 @@ const FilterSection = () => {
                         className={styles.filter_input} />
 
                 </div>
-
-
 
 
             </div>

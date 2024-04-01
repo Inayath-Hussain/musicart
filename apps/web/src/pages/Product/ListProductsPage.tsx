@@ -8,6 +8,7 @@ import { useGetProductsQuery } from "@web/store/slices/productApi";
 import styles from "./ListProductsPage.module.css";
 import SearchBar from "@web/components/Products/SearchBar";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
+import LogoAndLink from "@web/components/Products/LogoAndLink";
 
 
 
@@ -27,6 +28,8 @@ const ListProductsPage = () => {
 
     return (
         <>
+            {isDesktop && <LogoAndLink />}
+
             <Banner />
 
             {isDesktop && <SearchBar className={styles.input} placeholder="Search by Product Name" />}

@@ -24,17 +24,28 @@ export interface IUpdateProductQueryActionPayload {
 const initialState = {
     queryOptions: {
         sortBy: "",
-        search: "",
+        name: "",
         company: "",
         headphoneType: "",
         color: "",
         price: ""
     },
 
-    queryString: ""
+    queryString: "",
+
+    options: {
+        extracted: false,
+
+        color: {},
+
+        company: {}
+    }
+
 }
 
 export type IProductQueryData = typeof initialState
+
+
 
 const slice = createSlice({
     name: "productQuery",
@@ -46,12 +57,19 @@ const slice = createSlice({
 
             state.queryString = createQueryString(state.queryOptions)
             // map sort value with appropriate
+        },
+
+
+        updateOptions: (state, action: PayloadAction<IProductQueryData["options"]>) => {
+            state.options.extracted = action.payload.extracted
+            state.options.color = action.payload.color
+            state.options.company = action.payload.company
         }
     }
 })
 
 
-export const { updateProductQuery } = slice.actions;
+export const { updateProductQuery, updateOptions } = slice.actions;
 
 export const productQuerySlice = {
     name: slice.name,

@@ -36,7 +36,7 @@ const SearchBar: React.FC<Iprops> = ({ className = "", placeholder = "" }) => {
 
         timeOutRef.current = setTimeout(() => {
             console.log(e.target.value)
-            dispatch(updateProductQuery({ key: "search", value: e.target.value }))
+            dispatch(updateProductQuery({ key: "name", value: e.target.value }))
 
             // in mobile device when user's use search bar from other pages such as cart then user is navigated to products list page
             if (isDesktop === false && pathname !== route.home) navigate(route.home)

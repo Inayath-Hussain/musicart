@@ -1,0 +1,67 @@
+.hide {
+    display: none;
+}
+
+
+.logout_button {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+
+    background: #fff;
+
+    width: 100%;
+    border: none;
+    border-top: 1px solid #DDDDDD;
+    padding: 0.5rem 1rem;
+
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.profile {
+    position: fixed;
+    box-shadow: 0px 0px 20px 0px #0000005E;
+    background: #fff;
+    width: max-content;
+
+    border-radius: 1.5rem;
+    z-index: 4;
+
+    right: 0%;
+}
+
+
+.profile p {
+    padding: 0.5rem 1rem;
+}
+
+
+.profile_button {
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 50%;
+
+    height: 3rem;
+    width: 3rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.1rem;
+    font-family: var(--roboto);
+    font-weight: 600;
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+
+.profile_container {
+    position: relative;
+
+    margin-right: 2rem;
+    font-family: var(--roboto);
+}
