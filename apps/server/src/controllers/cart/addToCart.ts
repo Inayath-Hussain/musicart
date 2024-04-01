@@ -17,5 +17,5 @@ export const addToCartController: RequestHandler<{}, {}, IAddToCartBody> = async
 
 
     // return new quantity
-    return res.status(200).json({ message: "success", data: { quantity: doc.quantity } })
+    return res.status(200).json({ message: "success", data: { quantity: doc.quantity, product_id: doc.product } })
 }
