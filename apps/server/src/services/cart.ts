@@ -24,6 +24,8 @@ class CartService {
     async getCartItems(user_id: Types.ObjectId) {
         const items = await Cart.find({ user: user_id })
 
+        console.log(items[0])
+
         return items
     }
 }

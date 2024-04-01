@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { IAddProductBody } from "../middlewares/products/validateAddProductBody";
 import { ProductDetails } from "../models/productDetails";
 import { ProductReview } from "../models/productReview";
@@ -69,6 +70,15 @@ class ProductService {
 
     async getProductById(id: string) {
         return await ProductDetails.findById(id)
+    }
+
+
+    async getProductsFromIdArray(idArray: Types.ObjectId[]) {
+        return await ProductDetails.find({
+            _id: {
+                $in: idArray
+            }
+        })
     }
 }
 
