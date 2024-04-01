@@ -9,7 +9,7 @@ const cookieName = "accessToken"
  */
 export const signAccessTokenCookie = (res: Response, token: string) => {
     res.cookie(cookieName, token, {
-        httpOnly: true, signed: true, sameSite: "none", secure: true,
+        httpOnly: false, signed: true, sameSite: "none", secure: true,
         expires: new Date(Date.now() + 1000 * 60 * 60 * 2)
     })
 }
