@@ -12,6 +12,7 @@ const productDetailsSchema = new Schema({
     main_image: { type: String, required: true },
     other_images: [{ type: String, required: true }],
     description: [{ type: String, required: true }],
+    available: { type: Boolean, required: true },
 
     review: { type: Schema.Types.ObjectId, ref: "productReview", required: true }
 })
