@@ -12,8 +12,9 @@ const Profile = () => {
     const { name } = useSelector(userSliceSelector)
 
     const [open, setOpen] = useState(false);
-    const profileRef = useRef<HTMLDivElement | null>(null);
 
+    const profileRef = useRef<HTMLDivElement | null>(null);
+    const buttonContainerRef = useRef<HTMLButtonElement | null>(null);
 
     // close profile when user scrolls
     useEffect(() => {
@@ -27,6 +28,27 @@ const Profile = () => {
 
     }, [])
 
+
+    // closes profile when clicked outside of it
+    useEffect(() => {
+        const handleClose = (e: MouseEvent) => {
+            if (profileRef.current && buttonContainerRef.current) {
+
+                if (!e.composedPath().includes(profileRef.current) && !e.composedPath().includes(buttonContainerRef.current)) {
+                    setOpen(false)
+                }
+            }
+        }
+
+        document.addEventListener("click", handleClose)
+
+        return () => {
+            document.removeEventListener("click", handleClose)
+        }
+    }, [])
+
+
+
     const logo = () => {
 
         const [first, last] = name.split(" ")
@@ -35,8 +57,8 @@ const Profile = () => {
     }
 
     return (
-        <div className={styles.profile_container} >
-            <button className={styles.profile_button} onClick={() => setOpen(prev => !prev)}>
+        <div className={styles.profile_container}  >
+            <button className={styles.profile_button} onClick={() => setOpen(prev => !prev)} ref={buttonContainerRef}>
                 {logo()}
 
             </button>

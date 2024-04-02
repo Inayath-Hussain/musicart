@@ -1,0 +1,67 @@
+.checkout_page_header {
+    margin: 1rem 0 2rem;
+
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+
+.checkout_page_layout {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    font-family: var(--roboto);
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .checkout_page_header {
+        margin: 2rem 0 1rem;
+
+        text-align: center;
+
+        text-decoration: underline;
+    }
+
+
+    .grid {
+        display: grid;
+        grid-template: 1fr / 2fr 1fr;
+
+        column-gap: 3rem;
+    }
+
+
+    .place_order_button {
+        text-wrap: nowrap;
+    }
+
+
+    .place_order_container {
+        margin-top: 1.5rem;
+        padding: 0.7rem 1.1rem;
+
+        border: 2px solid #E1E1E1;
+
+        border-radius: 6px;
+
+        display: flex;
+        flex-direction: row;
+        column-gap: 1.5rem;
+    }
+
+
+    .total_price {
+        color: #B52B00;
+
+        font-size: 1rem;
+
+        margin-bottom: 0.3rem;
+    }
+
+
+    .order_terms {
+        font-size: 0.7rem;
+    }
+}

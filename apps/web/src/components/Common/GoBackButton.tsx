@@ -7,12 +7,17 @@ import { route } from "@web/routes";
 import styles from "./GoBackButton.module.css";
 
 
-const GoBackButton = () => {
+interface Iprops {
+    link?: string
+    text?: string
+}
+
+const GoBackButton: React.FC<Iprops> = ({ link = route.home, text = "Back to products" }) => {
 
     const { isDesktop } = useDeviceWidth()
 
     return (
-        <Link to={route.home} className={styles.go_back_link}>
+        <Link to={link} className={styles.go_back_link}>
             {isDesktop ?
                 <button className={styles.desktop_button}>
                     Back to products

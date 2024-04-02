@@ -10,7 +10,6 @@ interface Iprops {
  * component made only for devices with screen width atleast 768px
  */
 const PriceDetail: React.FC<Iprops> = ({ convenienceFee, total_amount }) => {
-    console.log(total_amount + convenienceFee)
     return (
         <div className={styles.price_detail_container}>
 

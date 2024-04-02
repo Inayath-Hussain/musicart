@@ -1,0 +1,65 @@
+import useDeviceWidth from "@web/hooks/useDeviceWidth";
+
+import styles from "./OrderSummary.module.css";
+import SecondaryButton from "../Common/SecondaryButton";
+
+
+interface Iprops {
+    total_amount: number
+    convenienceFee: number
+    handleSubmit?: () => void
+}
+
+const OrderSummary: React.FC<Iprops> = ({ convenienceFee, total_amount, handleSubmit = () => { } }) => {
+
+    const { isDesktop } = useDeviceWidth();
+
+
+    return (
+        <div className={styles.order_layout}>
+
+            {
+                isDesktop &&
+                <p className={styles.order_terms}>
+                    By placing your order, you agree to Musicart privacy
+                    notice and conditions of use.
+                </p>
+            }
+
+
+
+            {/* order summary, lists all prices added to order */}
+            <div className={styles.order_summary_container}>
+                <p className={styles.order_summary_header}>Order Summary</p>
+
+                <div className={styles.price_detail}>
+
+                    <div>
+                        <p>Items :</p>
+                        <p>Delivery :</p>
+                    </div>
+
+
+                    <div>
+                        <p>&#8377; {total_amount}</p>
+                        <p>&#8377; {convenienceFee}</p>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* total order price */}
+            <div className={`${styles.price_detail} ${styles.total}`}>
+                <p>Order Total :</p>
+                <p>&#8377; {total_amount + convenienceFee}</p>
+            </div>
+
+
+            {/* place order button */}
+            <SecondaryButton text="Place your order" className={styles.place_order_button} handleClick={handleSubmit} />
+
+        </div>
+    );
+}
+
+export default OrderSummary;

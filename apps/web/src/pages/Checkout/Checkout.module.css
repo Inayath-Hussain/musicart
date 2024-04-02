@@ -1,0 +1,26 @@
+.checkout_page_header {
+    margin: 1rem 0 2rem;
+
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+
+.checkout_page_layout {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    font-family: var(--roboto);
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .checkout_page_header {
+        margin: 2rem 0 1rem;
+
+        text-align: center;
+
+        text-decoration: underline;
+    }
+}

@@ -11,7 +11,7 @@ import { useGetProductsQuery } from "@web/store/slices/productApi";
 import { productQuerySelector } from "@web/store/slices/productQuery";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
 import DesktopBranding from "@web/components/Desktop/DesktopBrandingAndProfile";
-import GoBackButton from "@web/components/Desktop/GoBackButton";
+import GoBackButton from "@web/components/Common/GoBackButton";
 import MobileProductDetail from "@web/components/Mobile/ProductDetail";
 import DesktopProductDetail from "@web/components/Desktop/ProductDetail";
 

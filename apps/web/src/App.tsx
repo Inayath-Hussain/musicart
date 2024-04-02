@@ -17,6 +17,7 @@ import { authTokenContext } from './context/authTokens';
 import { getCartService } from './services/cart/getCartItems';
 import { updateCart } from './store/slices/cartItems';
 import { updateUserName } from './store/slices/userSlice';
+import CheckoutPage from './pages/Checkout/CheckoutPage';
 
 export function App() {
 
@@ -66,6 +67,7 @@ export function App() {
           <Route index element={<ListProductsPage />} />
           <Route path={route.products.detail(":id")} element={<ProductDetail />} />
           <Route path={route.cart} element={<CartPage />} />
+          <Route path={route.checkout} element={<CheckoutPage />} />
           <Route path={route.invoices} element={<InvoicesPage />} />
         </Route>
 

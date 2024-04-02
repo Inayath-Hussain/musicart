@@ -1,0 +1,78 @@
+.place_order_button {
+    margin-top: 1.3rem;
+
+    width: 100%;
+}
+
+
+.order_layout {
+    padding: 0.5rem;
+}
+
+
+.order_terms {
+    font-size: 0.75rem;
+    text-align: center;
+
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #E1E1E1;
+}
+
+
+.order_summary_container {
+    padding: 1rem 0;
+
+    border-bottom: 2px solid #E1E1E1;
+}
+
+
+.order_summary_header {
+    margin-bottom: 1rem;
+}
+
+
+.price_detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #797979;
+}
+
+
+.price_detail p {
+    margin-bottom: 0.4rem;
+}
+
+
+.total {
+    color: #B52B00;
+    font-size: 1.1rem;
+
+    margin-top: 0.8rem;
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .order_layout {
+        border: 2px solid #E1E1E1;
+
+        border-radius: 8px;
+
+        padding: 0.7rem 0.5rem 1.5rem;
+        height: fit-content;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .place_order_button {
+        order: -1;
+
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+    }
+}

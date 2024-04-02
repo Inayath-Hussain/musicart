@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { ICartPageData } from "./interface";
 import DesktopBranding from "@web/components/Desktop/DesktopBrandingAndProfile";
-import GoBackButton from "@web/components/Desktop/GoBackButton";
+import GoBackButton from "@web/components/Common/GoBackButton";
 import MobileCartPage from "@web/components/Mobile/CartPage";
 import DesktopCartPage from "@web/components/Desktop/CartPage";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
@@ -41,8 +41,6 @@ const CartPage = () => {
         }
         return result
     }
-
-    console.log(total_amount)
 
     const cartInfo = useMemo(getProducts, [items, data])
 
