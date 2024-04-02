@@ -18,7 +18,7 @@ const DesktopBranding: React.FC<PropsWithChildren> = ({ children }) => {
     const { accessToken, refreshToken } = useContext(authTokenContext);
 
 
-    const { total } = useSelector(cartSelector)
+    const { total_items } = useSelector(cartSelector)
 
     return (
         <div className={`${styles.flex} ${styles.logo_and_links_section_container}`}>
@@ -49,7 +49,7 @@ const DesktopBranding: React.FC<PropsWithChildren> = ({ children }) => {
 
                         <p>View Cart</p>
 
-                        {total}
+                        {total_items}
                     </Link>
 
 

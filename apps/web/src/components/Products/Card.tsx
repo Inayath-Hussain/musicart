@@ -41,7 +41,7 @@ const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, i
             const quantity = getQuantity(id, items)
 
             addToCartService({ product_id: id, quantity: quantity + 1 }).then(result =>
-                dispatch(updateCartItem(result.data))
+                dispatch(updateCartItem({ item: result.data, price }))
             ).catch(message => {
                 // toast message here
             })

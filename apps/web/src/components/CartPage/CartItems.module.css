@@ -1,0 +1,99 @@
+.color_container {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.5rem;
+}
+
+.color_container p::first-letter {
+    text-transform: capitalize;
+}
+
+
+.item {
+    display: grid;
+    grid-template: auto / 140px 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: flex-start;
+
+    margin-bottom: 3rem;
+}
+
+
+.item img {
+    border: 1px solid #000;
+    border-radius: 4px;
+
+    width: 130px;
+
+    justify-self: flex-start;
+}
+
+.item p {
+    margin: 0.3rem 0;
+}
+
+
+.items_container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.items_list_container {
+    border: 2px solid #E1E1E1;
+    border-left: 0;
+    border-right: 0;
+    margin-right: 0.4rem;
+
+    padding: 1.5rem 0.7rem;
+
+    overflow-y: auto;
+}
+
+
+.name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000;
+
+    margin-bottom: 0.5rem;
+}
+
+
+.name_and_color {
+    font-size: 1rem;
+    color: #A2A2A2;
+
+}
+
+
+.price_container {
+    font-size: 1rem;
+}
+
+.price_container>p:first-child {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+
+.total_container {
+    margin: 1rem 0 !important;
+}
+
+
+.total_item {
+    grid-column-start: 2;
+
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+
+.total_price_of_items {
+    grid-column-start: -1;
+    grid-column-end: 5;
+
+    font-weight: 500;
+    font-size: 1.5rem;
+}

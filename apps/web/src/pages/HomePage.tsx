@@ -1,16 +1,21 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import Footer from "@web/components/Common/Footer";
+import Header from "@web/components/Common/Header";
 import NavBar from "@web/components/Mobile/NavBar";
+import { route } from "@web/routes";
 
 import styles from "./HomePage.module.css";
-import Header from "@web/components/Common/Header";
+
 
 const HomePage = () => {
 
+    const { pathname } = useLocation();
+
+    const fixedHeightClass = pathname === route.cart ? styles.fixed_height : ""
 
     return (
-        <div className={styles.page_layout} >
+        <div className={`${styles.page_layout} ${fixedHeightClass}`} >
 
             <Header />
 

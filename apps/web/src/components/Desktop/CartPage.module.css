@@ -1,0 +1,49 @@
+.grid {
+    display: grid;
+
+    grid-template: 40svh / 2fr 1fr;
+
+    overflow-y: auto;
+}
+
+
+.header_container {
+    margin: 2rem 0 2.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+
+.header_container img {
+    width: 2.5rem;
+}
+
+
+.place_order_button {
+    width: 100%;
+}
+
+
+.place_order_grid {
+    grid-template-rows: auto;
+    margin-top: 2rem;
+}
+
+
+.place_order_link {
+    padding: 0 0.6rem;
+    grid-column-start: 2;
+}
+
+
+.price_container {
+    font-size: 1rem;
+}
+
+.price_container>p:first-child {
+    font-weight: 600;
+    font-size: 1rem;
+}

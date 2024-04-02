@@ -1,3 +1,7 @@
+.fixed_height {
+    height: 100svh !important;
+}
+
 .hide {
     display: none !important;
 }

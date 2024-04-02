@@ -31,7 +31,7 @@ export function App() {
     const call = async () => {
       getCartService()
         .then(result => {
-          dispatch(updateCart(result.data))
+          dispatch(updateCart({ items: result.data, convenienceFee: Number(result.convenienceFee), total_amount: Number(result.totalAmount) }))
           dispatch(updateUserName(result.username))
         })
         .catch(message => {

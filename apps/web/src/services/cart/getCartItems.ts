@@ -2,14 +2,16 @@ import { apiURLs } from "../URLs"
 import { axiosInstance } from "../instance"
 
 interface ICartItem {
-    product_id: string
-    user_id: string
+    product: string
+    user: string
     quantity: string
 }
 
 interface Idata {
     data: ICartItem[]
     username: string
+    convenienceFee: string
+    totalAmount: string
 }
 
 
