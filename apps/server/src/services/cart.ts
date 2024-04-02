@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
-import { Cart } from "../models/cart";
+import { Cart, ICart } from "../models/cart";
+import { IProductDetails } from "../models/productDetails";
 
 class CartService {
     async addToCart(user_id: Types.ObjectId, product_id: string, quantity: string) {
@@ -22,12 +23,30 @@ class CartService {
 
 
     async getCartItems(user_id: Types.ObjectId) {
-        const items = await Cart.find({ user: user_id })
+        const items = await Cart.find({ user: user_id }).populate<{ product: Pick<IProductDetails, "price"> }>("product", "price")
 
-        console.log(items[0])
+        const result: ICart[] = []
 
-        return items
+        let total_amount = 0;
+        for (let i of items) {
+            total_amount = total_amount + (i.quantity * i.product.price)
+
+            const docObj = i.toObject();
+
+            docObj.product = docObj.product._id
+
+            result.push(docObj);
+
+
+            console.log(docObj)
+        }
+
+        return { items: result, total_amount }
     }
+
+
+
+    // async getTotal
 }
 
 
