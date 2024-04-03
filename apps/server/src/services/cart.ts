@@ -8,6 +8,7 @@ interface IGetCartResult {
 
     items: {
         id: Types.ObjectId
+        product_id: Types.ObjectId
         name: string
         color: string
         quantity: number
@@ -19,20 +20,21 @@ interface IGetCartResult {
 
 
 class CartService {
-    async addToCart(user_id: Types.ObjectId, product_id: string, quantity: string) {
+    async addToCart(user_id: Types.ObjectId, product_id: string, quantity?: number) {
 
         // find if user already added product to cart
         const existingDoc = await Cart.findOne({ user: user_id, product: product_id })
 
         // if already added increase the quantity
         if (existingDoc !== null) {
-            existingDoc.quantity = Number(quantity);
+            // quantity is provided then assign that value else increase quantity by one
+            existingDoc.quantity = quantity ? quantity : existingDoc.quantity + 1;
 
             return await existingDoc.save()
         }
 
         // else create new record
-        const newDoc = new Cart({ user: user_id, product: product_id, quantity })
+        const newDoc = new Cart({ user: user_id, product: product_id, quantity: quantity || 1 })
 
         return await newDoc.save()
     }
@@ -43,9 +45,9 @@ class CartService {
             { $match: { user: user_id } },
             { $lookup: { from: "productdetails", localField: "product", foreignField: "_id", as: "product" } },
             { $unwind: "$product" },
-            { $project: { _id: 1, user: "$user", product_name: "$product.name", color: "$product.color", image: "$product.main_image", price: "$product.price", quantity: "$quantity", total_price: { $multiply: ["$quantity", "$product.price"] }, } },
+            { $project: { _id: 1, user: "$user", product_id: "$product._id", product_name: "$product.name", available: "$product.available", color: "$product.color", image: "$product.main_image", price: "$product.price", quantity: "$quantity", total_price: { $multiply: ["$quantity", "$product.price"] }, } },
 
-            { $group: { _id: null, items: { $push: { id: "$_id", name: "$product_name", image: "$image", color: "$color", quantity: "$quantity", price: "$price", total_price: "$total_price" } }, total_items: { $sum: "$quantity" }, total_item_prices: { $sum: "$total_price" } } }
+            { $group: { _id: null, items: { $push: { id: "$_id", product_id: "$product_id", name: "$product_name", available: "#available", image: "$image", color: "$color", quantity: "$quantity", price: "$price", total_price: "$total_price" } }, total_items: { $sum: "$quantity" }, total_item_prices: { $sum: "$total_price" } } }
         ])
 
         const data = result.length !== 0 ? result[0] : null;
