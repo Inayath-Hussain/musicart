@@ -22,5 +22,12 @@ export const getCartItemsController: RequestHandler = async (req, res, next) => 
     const totalAmount = cartData.total_item_prices + convenienceFee;
 
 
-    return res.status(200).json({ data: cartData.items, username: userDoc.name, total_items_price: cartData.total_item_prices, convenienceFee, totalAmount })
+    return res.status(200).json({
+        data: cartData.items,
+        username: userDoc.name,
+        total_items_price: cartData.total_item_prices,
+        total_items: cartData.total_items,
+        convenienceFee,
+        totalAmount
+    })
 }
