@@ -13,8 +13,7 @@ export const getCartItemsController: RequestHandler = async (req, res, next) => 
 
     const cartData = await cartService.getUserCart(userDoc._id)
 
-    if (cartData === null) return res.status(400).json({ message: "no cart items found" });
-
+    if (cartData === null) return res.status(200).json({ message: "no cart items found" });
 
 
     const convenienceFee = env.CONVENIENCE_FEE;

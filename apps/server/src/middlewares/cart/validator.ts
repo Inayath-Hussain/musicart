@@ -51,12 +51,13 @@ export const productIdValidator = (value: any): Valid | InValid => {
 
 export const quantityValidator = (value: any): Valid | InValid => {
     switch (true) {
-        case (typeof value === "string"):
-            return { valid: false, errorMessage: "quantity should be of type string" }
+        // since quantity field is optional
+        case (value === undefined):
+            return { valid: true }
 
 
-        case (Number.isNaN(value)):
-            return { valid: false, errorMessage: "quantity should be numeric" }
+        case (typeof value !== "number"):
+            return { valid: false, errorMessage: "quantity should be of type number" }
 
 
         case (Number(value) <= 0):

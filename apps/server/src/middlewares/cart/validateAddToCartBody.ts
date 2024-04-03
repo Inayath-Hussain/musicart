@@ -4,7 +4,7 @@ import { AddToCartBodyError } from "./errors"
 
 export interface IAddToCartBody {
     product_id: string
-    quantity: string
+    quantity?: number
 }
 
 

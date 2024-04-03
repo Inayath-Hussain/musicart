@@ -18,9 +18,9 @@ export const addToCartController: RequestHandler<{}, {}, IAddToCartBody> = async
 
     if (productDoc === null) return res.status(400).json({ message: "Product doesnot exist" })
 
-    const doc = await cartService.addToCart(userDoc._id, product_id, quantity)
+    await cartService.addToCart(userDoc._id, product_id, quantity)
 
 
     // return new quantity
-    return res.status(200).json({ message: "success", data: { quantity: doc.quantity, product_id: doc.product } })
+    return res.status(200).json({ message: "success" })
 }
