@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { userService } from "../../services/user";
 import { cartService } from "../../services/cart";
+import { env } from "../../config/env";
 
 
 export const getCartItemsController: RequestHandler = async (req, res, next) => {
@@ -10,12 +11,16 @@ export const getCartItemsController: RequestHandler = async (req, res, next) => 
 
     if (userDoc === null) return res.status(401).json({ message: "user doesnot exist" })
 
-    const cart = await cartService.getCartItems(userDoc._id)
+    const cartData = await cartService.getUserCart(userDoc._id)
 
-    const convenienceFee = 45;
-
-    const totalAmount = cart.total_amount + 0;
+    if (cartData === null) return res.status(400).json({ message: "no cart items found" });
 
 
-    return res.status(200).json({ data: cart.items, username: userDoc.name, convenienceFee, totalAmount })
+
+    const convenienceFee = env.CONVENIENCE_FEE;
+
+    const totalAmount = cartData.total_item_prices + convenienceFee;
+
+
+    return res.status(200).json({ data: cartData.items, username: userDoc.name, total_items_price: cartData.total_item_prices, convenienceFee, totalAmount })
 }
