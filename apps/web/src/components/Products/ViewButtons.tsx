@@ -1,31 +1,32 @@
-import { useState } from "react";
-
 import GridIcon from "../Icons/Grid";
 import ListIcon from "../Icons/List";
+import { ViewStyle } from "./ProductsList";
 
 import styles from "./ViewButtons.module.css";
 
 
-type ViewOptions = "grid" | "list"
+interface Iprops {
+    viewStyle: ViewStyle
 
-const ViewButtons = () => {
+    handleViewStyleChange: (value: ViewStyle) => void
+}
 
-    const [viewState, setViewState] = useState<ViewOptions>("grid");
+const ViewButtons: React.FC<Iprops> = ({ viewStyle, handleViewStyleChange }) => {
 
-    const getFillColor = (value: ViewOptions) => viewState === value ? "#000" : "#fff"
+    const getFillColor = (value: ViewStyle) => viewStyle === value ? "#000" : "#fff"
 
     return (
         <div className={styles.view_buttons_container}>
             <label>
                 <GridIcon fill={getFillColor("grid")} />
                 <input type="radio" name="view_button" defaultChecked className={styles.input}
-                    checked={viewState === "grid"} onChange={() => setViewState("grid")} />
+                    checked={viewStyle === "grid"} onChange={() => handleViewStyleChange("grid")} />
             </label>
 
             <label>
                 <ListIcon fill={getFillColor("list")} />
                 <input type="radio" name="view_button" className={styles.input}
-                    checked={viewState === "list"} onChange={() => setViewState("list")} />
+                    checked={viewStyle === "list"} onChange={() => handleViewStyleChange("list")} />
             </label>
         </div>
     );

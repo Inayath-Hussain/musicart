@@ -1,0 +1,44 @@
+.details_button {
+    border-radius: 1.2rem;
+
+    padding: 0.3rem 1.5rem;
+
+    margin-top: 0.3rem;
+}
+
+
+.full_title {
+    font-size: 0.8rem;
+
+}
+
+
+.item_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    column-gap: 1.5rem;
+}
+
+
+.item_info {
+    align-self: stretch;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: 0.3rem 0;
+}
+
+.item_info p {
+    margin: 0.2rem 0;
+}
+
+.name {
+    font-weight: 600;
+    font-size: 1.3rem;
+}

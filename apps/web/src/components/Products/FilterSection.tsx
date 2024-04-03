@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import CustomSelect, { ICustomSelectoption } from "./CustomSelect";
+import { ViewStyle } from "./ProductsList";
 import ViewButtons from "./ViewButtons";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
 import { useGetProductsQuery } from "@web/store/slices/productApi";
@@ -10,7 +11,13 @@ import { updateProductQuery, IUpdateProductQueryActionPayload, productQuerySelec
 import styles from "./FilterSection.module.css";
 
 
-const FilterSection = () => {
+interface Iprops {
+    viewStyle: ViewStyle
+    handleViewStyleChange: (value: ViewStyle) => void
+}
+
+
+const FilterSection: React.FC<Iprops> = ({ handleViewStyleChange, viewStyle }) => {
 
     const { isDesktop } = useDeviceWidth();
 
@@ -90,7 +97,7 @@ const FilterSection = () => {
             {/*  */}
             <div className={styles.view_button_and_filters_container}>
 
-                {isDesktop && <ViewButtons />}
+                {isDesktop && <ViewButtons viewStyle={viewStyle} handleViewStyleChange={handleViewStyleChange} />}
 
 
                 {/* filtering */}

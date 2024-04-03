@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import { useState } from "react";
 
 import Banner from "@web/components/Products/Banner";
 import FilterSection from "@web/components/Products/FilterSection";
-import ProductsList from "@web/components/Products/ProductsList";
-import { useGetProductsQuery } from "@web/store/slices/productApi";
-
-import styles from "./ListProductsPage.module.css";
+import LogoAndLink from "@web/components/Products/LogoAndLink";
+import ProductsList, { ViewStyle } from "@web/components/Products/ProductsList";
 import SearchBar from "@web/components/Products/SearchBar";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
-import LogoAndLink from "@web/components/Products/LogoAndLink";
+import { useGetProductsQuery } from "@web/store/slices/productApi";
+
+
+import styles from "./ListProductsPage.module.css";
 
 
 
@@ -19,11 +20,8 @@ const ListProductsPage = () => {
     const { data, isError } = useGetProductsQuery("");
     console.log(data, isError)
 
-    // make api call to get all products and store it in redux
-    useEffect(() => {
 
-    }, [])
-
+    const [viewStyle, setViewStyle] = useState<ViewStyle>("grid");
 
 
     return (
@@ -34,11 +32,11 @@ const ListProductsPage = () => {
 
             {isDesktop && <SearchBar className={styles.input} placeholder="Search by Product Name" />}
 
-            <FilterSection />
+            <FilterSection viewStyle={viewStyle} handleViewStyleChange={(value) => setViewStyle(value)} />
 
             <hr className={styles.horizontal_rule} />
 
-            <ProductsList />
+            <ProductsList viewStyle={viewStyle} />
         </div>
     );
 }
