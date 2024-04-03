@@ -1,4 +1,5 @@
 import { paymentMethodEnum } from "../../models/order"
+import { IPlaceOrderBody } from "./validatePlaceOrderBody"
 
 interface Valid {
     valid: true
@@ -7,6 +8,11 @@ interface Valid {
 interface InValid {
     valid: false
     errorMessage: string
+}
+
+
+export const sanitizePaymentMethod = (body: IPlaceOrderBody) => {
+    if (body.paymentMethod && typeof body.paymentMethod === "string") body.paymentMethod = body.paymentMethod.toUpperCase()
 }
 
 
@@ -36,7 +42,7 @@ export const paymentMethodValidator = (value: any): Valid | InValid => {
             return { valid: false, errorMessage: "payment method is required" }
 
 
-        case (paymentMethodEnum.includes(value) === false):
+        case (paymentMethodEnum.includes(value.toUpperCase()) === false):
             return { valid: false, errorMessage: `payment method should one of the values - ${paymentMethodEnum.join(", ")}` }
 
 

@@ -1,7 +1,7 @@
 import { Schema, Types, model } from "mongoose";
 
 
-export const paymentMethodEnum = ["POD", "UPI", "Card"] as const
+export const paymentMethodEnum = ["POD", "UPI", "CARD"] as const
 
 export interface IOrder {
     user: Types.ObjectId

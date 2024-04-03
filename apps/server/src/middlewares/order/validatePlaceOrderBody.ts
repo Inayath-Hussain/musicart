@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { sanitizeAll } from "../sanitizeBase";
-import { addressValidator, paymentMethodValidator } from "./validator";
+import { addressValidator, paymentMethodValidator, sanitizePaymentMethod } from "./validator";
 import { PlaceOrderBodyError } from "./errors";
 
 export interface IPlaceOrderBody {
@@ -11,6 +11,7 @@ export interface IPlaceOrderBody {
 
 export const validatePlaceOrderBody: RequestHandler<{}, {}, IPlaceOrderBody> = (req, res, next) => {
     sanitizeAll(req.body);
+    sanitizePaymentMethod(req.body);
 
     const { address, paymentMethod } = req.body;
 
