@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { cleanEnv, port, str } from "envalid";
+import { cleanEnv, port, str, num } from "envalid";
 
 config();
 
@@ -13,4 +13,5 @@ export const env = cleanEnv(process.env, {
     FIREBASE_PROJECT_ID: str(),
     FIREBASE_PRIVATE_KEY: str(),
     FIREBASE_CLIENT_EMAIL: str(),
+    CONVENIENCE_FEE: num()
 })
