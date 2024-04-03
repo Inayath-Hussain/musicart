@@ -1,15 +1,15 @@
-import GoBackButton from "@web/components/Common/GoBackButton";
+import DeliveryAddressSection from "@web/components/Checkout/DeliveryAddress";
 import DesktopBranding from "@web/components/Desktop/DesktopBrandingAndProfile";
+import GoBackButton from "@web/components/Common/GoBackButton";
+import PaymentMethodSection from "@web/components/Checkout/PaymentMethod";
+import ReviewItemsSection from "@web/components/Checkout/ReviewItems";
+import OrderSummary from "@web/components/Checkout/OrderSummary";
+import SecondaryButton from "@web/components/Common/SecondaryButton";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
 import { route } from "@web/routes";
 
 
 import styles from "./CheckoutStyle.module.css";
-import DeliveryAddressSection from "@web/components/Checkout/DeliveryAddress";
-import PaymentMethodSection from "@web/components/Checkout/PaymentMethod";
-import ReviewItemsSection from "@web/components/Checkout/ReviewItems";
-import OrderSummary from "@web/components/Checkout/OrderSummary";
-import SecondaryButton from "@web/components/Common/SecondaryButton";
 
 
 
@@ -23,14 +23,17 @@ interface IProduct {
 interface Iprops {
     type: "checkout" | "invoice"
     address: string
+    addressError?: string
+    handleAddressChange?: React.ChangeEventHandler<HTMLTextAreaElement>
+
     paymentMethod: string
+    paymentMethodError?: string
+    handlePaymentMethodChange?: React.ChangeEventHandler<HTMLSelectElement>
+
     products: IProduct[]
 
     total_amount: number
     convenienceFee: number
-
-    handleAddressChange?: React.ChangeEventHandler<HTMLTextAreaElement>
-    handlePaymentMethodChange?: React.ChangeEventHandler<HTMLSelectElement>
 
     handleSubmit?: () => Promise<void>
 
@@ -39,8 +42,8 @@ interface Iprops {
 
 
 const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
-    address, handleAddressChange,
-    paymentMethod, handlePaymentMethodChange,
+    address, handleAddressChange, addressError = "",
+    paymentMethod, handlePaymentMethodChange, paymentMethodError = "",
     products, convenienceFee, total_amount,
     handleSubmit = () => { }
 }) => {
@@ -48,6 +51,8 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
     const { isDesktop } = useDeviceWidth();
 
     const backButtonConfig = type === "checkout" ? { link: route.cart, text: "Back to cart" } : { link: route.home, text: "Back to products" }
+
+    const viewOnly = type === "invoice" ? true : false
 
     return (
         <div className={styles.checkout_page_layout}>
@@ -69,9 +74,9 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
             <div className={styles.grid}>
 
                 <div>
-                    <DeliveryAddressSection address={address} handlechange={handleAddressChange} />
+                    <DeliveryAddressSection address={address} handleChange={handleAddressChange} errorMessage={addressError} viewOnly={viewOnly} />
 
-                    <PaymentMethodSection value={paymentMethod} handleChange={handlePaymentMethodChange} />
+                    <PaymentMethodSection value={paymentMethod} handleChange={handlePaymentMethodChange} errorMessage={paymentMethodError} viewOnly={viewOnly} />
 
                     <ReviewItemsSection data={products} />
 

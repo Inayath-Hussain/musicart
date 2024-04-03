@@ -4,6 +4,20 @@
 
     width: 60svw;
     margin-top: 0.4rem;
+
+    border-radius: 6px;
+
+    padding: 0.5rem;
+}
+
+
+.error {
+    border-color: var(--error-color);
+}
+
+
+.error_message {
+    font-size: 0.8rem;
 }
 
 

@@ -18,6 +18,7 @@ import { getCartService } from './services/cart/getCartItems';
 import { updateCart } from './store/slices/cartItems';
 import { updateUserName } from './store/slices/userSlice';
 import CheckoutPage from './pages/Checkout/CheckoutPage';
+import AuthOnlyRoute from './components/Common/AuthOnlyRoute';
 
 export function App() {
 
@@ -66,9 +67,9 @@ export function App() {
         <Route path={route.home} element={<HomePage />} >
           <Route index element={<ListProductsPage />} />
           <Route path={route.products.detail(":id")} element={<ProductDetail />} />
-          <Route path={route.cart} element={<CartPage />} />
-          <Route path={route.checkout} element={<CheckoutPage />} />
-          <Route path={route.invoices} element={<InvoicesPage />} />
+          <Route path={route.cart} element={<AuthOnlyRoute> <CartPage /> </AuthOnlyRoute>} />
+          <Route path={route.checkout} element={<AuthOnlyRoute> <CheckoutPage /> </AuthOnlyRoute>} />
+          <Route path={route.invoices} element={<AuthOnlyRoute> <InvoicesPage /> </AuthOnlyRoute>} />
         </Route>
 
       </Routes>

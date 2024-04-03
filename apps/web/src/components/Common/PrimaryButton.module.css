@@ -1,0 +1,10 @@
+.primary_button {
+    background: var(--primary-color);
+    font-family: var(--roboto);
+
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}

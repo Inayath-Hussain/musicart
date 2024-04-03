@@ -20,3 +20,11 @@ export class ApiError {
         this.message = message
     }
 }
+
+
+
+export class UnauthorizedError extends ApiError {
+    constructor() {
+        super("Please login again");
+    }
+}

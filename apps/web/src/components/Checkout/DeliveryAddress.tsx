@@ -5,18 +5,22 @@ import CheckoutSection from "./CheckoutSection";
 
 
 import styles from "./DeliveryAddress.module.css";
+import FormError from "../Users/FormError";
 
 
 interface Iprops {
     address: string;
-    handlechange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+    handleChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
 
+    errorMessage?: string
     viewOnly?: boolean
 }
 
-const DeliveryAddressSection: React.FC<Iprops> = ({ address, handlechange = () => { }, viewOnly = false }) => {
+const DeliveryAddressSection: React.FC<Iprops> = ({ address, handleChange = () => { }, viewOnly = false, errorMessage = "" }) => {
 
     const { name } = useSelector(userSliceSelector);
+
+    const inputClass = errorMessage !== "" ? `${styles.textarea} ${styles.error}` : styles.textarea
 
     return (
         <CheckoutSection text="1. Delivery Address">
@@ -26,8 +30,11 @@ const DeliveryAddressSection: React.FC<Iprops> = ({ address, handlechange = () =
                 viewOnly ?
                     <p>{address}</p>
                     :
-                    <textarea value={address} onChange={handlechange} disabled={viewOnly}
-                        className={styles.textarea} rows={4} />
+                    <>
+                        <textarea value={address} onChange={handleChange} disabled={viewOnly}
+                            className={inputClass} rows={4} />
+                        <FormError type="field" errorMessage={errorMessage} className={styles.error_message} />
+                    </>
             }
         </CheckoutSection>
     );

@@ -32,12 +32,8 @@ export const addProductService = (payload: IAddProductBody, signal: GenericAbort
                     case (ex.response?.status === HttpStatusCode.UnprocessableEntity):
                         return reject(new AddProductBodyError(ex.response.data.message, ex.response.data.errors))
 
-                    case (ex.response?.status === HttpStatusCode.BadRequest):
+                    case (ex.response?.status === HttpStatusCode.Forbidden):
                         return reject(new ApiError(ex.response.data.message))
-
-                    default:
-                        return reject(new ApiError(ex.response?.data.message))
-
                 }
             }
 
