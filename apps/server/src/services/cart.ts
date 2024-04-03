@@ -72,7 +72,9 @@ class CartService {
             { $group: { _id: null, items: { $push: { id: "$_id", name: "$product_name", image: "$image", color: "$color", quantity: "$quantity", price: "$price", total_price: "$total_price" } }, total_items: { $sum: "$quantity" }, total_item_prices: { $sum: "$total_price" } } }
         ])
 
-        const data = result[0];
+        const data = result.length !== 0 ? result[0] : null;
+
+        if (data === null) return null;
 
         return { items: data.items, total_items: data.total_items, total_item_prices: data.total_item_prices }
     }
