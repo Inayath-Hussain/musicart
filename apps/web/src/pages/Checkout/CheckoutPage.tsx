@@ -1,17 +1,16 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CheckoutStylePage from "../Common/CheckoutStylePage";
-import { ICheckoutProduct } from "./interface";
 import OrderPlaced from "@web/components/Checkout/OrderPlaced";
 import { authTokenContext } from "@web/context/authTokens";
 import { useOnline } from "@web/hooks/useOnline";
 import { route } from "@web/routes";
 import { NoCartItems, PlaceOrderBodyError, placeOrderService } from "@web/services/order/placeOrder";
 import { UnauthorizedError } from "@web/services/errors";
-import { cartSelector } from "@web/store/slices/cartItems";
-import { useGetProductsQuery } from "@web/store/slices/productApi";
+import { EmptyCart, ICartData, getCartService } from "@web/services/cart/getCartItems";
+import { useDispatch } from "react-redux";
+import { updateCart } from "@web/store/slices/cartItems";
 
 
 
@@ -22,14 +21,29 @@ const CheckoutPage: React.FC = () => {
 
     useEffect(() => {
 
+        const call = async () => {
+            const result = await getCartService()
+
+            if (result instanceof EmptyCart) {
+                navigate(route.home)
+                // no items in cart toast
+                return
+            }
+
+            setCartItems(result)
+        }
+
+        call();
         // make api call to get cart
     }, [])
 
+    const [cartItems, setCartItems] = useState<ICartData | null>(null);
+
+
+
     const { isOnline } = useOnline();
 
-    const { items, total_amount, convenienceFee } = useSelector(cartSelector);
-
-    const { data } = useGetProductsQuery("");
+    const dispatch = useDispatch();
 
     const [address, setAddress] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
@@ -40,23 +54,8 @@ const CheckoutPage: React.FC = () => {
     const initalErrors = { address: "", paymentMethod: "" }
     const [errors, setErrors] = useState(initalErrors);
 
-    const getProducts = () => {
 
-        let result: ICheckoutProduct[] = []
-
-        for (let i of items) {
-            const product = data?.data.find(p => p._id === i.product)
-
-            if (product) {
-                result.push({ color: product.color, id: product._id, image: product.main_image, name: product.name })
-            }
-        }
-        return result
-    }
-
-    const products = useMemo(getProducts, [items]);
-
-
+    // validate's address and payment method values
     const validate = () => {
 
         let valid = true;
@@ -69,6 +68,8 @@ const CheckoutPage: React.FC = () => {
         setErrors(localErrorObj)
         return valid
     }
+
+
 
     const handleSubmit = async () => {
 
@@ -91,6 +92,8 @@ const CheckoutPage: React.FC = () => {
             setErrors(initalErrors)
             setAddress("");
             setPaymentMethod("");
+
+            dispatch(updateCart(0))
         }
 
         catch (ex) {
@@ -122,13 +125,25 @@ const CheckoutPage: React.FC = () => {
 
             :
 
-            <CheckoutStylePage displayRoute="Home/Checkout" type="checkout" products={products}
+            cartItems
 
-                address={address} handleAddressChange={e => setAddress(e.target.value)} addressError={errors.address}
+                ?
 
-                paymentMethod={paymentMethod} handlePaymentMethodChange={e => setPaymentMethod(e.target.value)} paymentMethodError={errors.paymentMethod}
+                <CheckoutStylePage displayRoute="Home/Checkout" type="checkout" products={cartItems.data}
 
-                total_amount={total_amount} convenienceFee={convenienceFee} handleSubmit={handleSubmit} />
+                    address={address} handleAddressChange={e => setAddress(e.target.value)} addressError={errors.address}
+
+                    paymentMethod={paymentMethod} handlePaymentMethodChange={e => setPaymentMethod(e.target.value)} paymentMethodError={errors.paymentMethod}
+
+                    total_items_price={cartItems.total_items_price} convenienceFee={cartItems?.convenienceFee} total_amount={cartItems.totalAmount}
+
+                    handleSubmit={handleSubmit} />
+
+
+                :
+
+                <h1>Please wait fetching cart items ...</h1>
+
     );
 }
 

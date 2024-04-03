@@ -4,25 +4,27 @@ import PriceDetail from "../CartPage/PriceDetail";
 import CartItems from "../CartPage/CartItems";
 import SecondaryButton from "../Common/SecondaryButton";
 import CartPageLogo from "@web/assets/icons/cart_page_logo.svg"
-import { ICartPageData, IhandleQuantityChange } from "@web/pages/Cart/interface";
+import { IhandleQuantityChange } from "@web/pages/Cart/interface";
 import { route } from "@web/routes";
 
 import styles from "./CartPage.module.css";
+import { ICartData } from "@web/services/cart/getCartItems";
 
 
 interface Iprops {
-    data: ICartPageData[]
-    total_amount: number
+    data: ICartData["data"]
     quantityOptions: number[]
-    convenienceFee: number
-    total_items: number
-    handleQuantityChange: IhandleQuantityChange
+    total_items: string
 
-    getTotalOfItem: (product_id: string) => number
+    total_items_price: string
+    convenienceFee: string
+    total_amount: string
+    handleQuantityChange: IhandleQuantityChange
 }
 
 
-const DesktopCartPage: React.FC<Iprops> = ({ data, quantityOptions, getTotalOfItem, total_amount, convenienceFee, total_items, handleQuantityChange }) => {
+const DesktopCartPage: React.FC<Iprops> = ({ data, quantityOptions,
+    total_items_price, convenienceFee, total_amount, total_items, handleQuantityChange }) => {
     return (
         <>
             <div className={styles.header_container}>
@@ -36,14 +38,14 @@ const DesktopCartPage: React.FC<Iprops> = ({ data, quantityOptions, getTotalOfIt
 
 
                 {/* left section ( items ) */}
-                <CartItems data={data} getTotalOfItem={getTotalOfItem} quantityOptions={quantityOptions}
-                    total_items={total_items} total_amount={total_amount}
+                <CartItems data={data} quantityOptions={quantityOptions}
+                    total_items={total_items} total_items_price={total_items_price}
                     handleQuantityChange={handleQuantityChange} />
 
 
 
                 {/* price detail */}
-                <PriceDetail total_amount={total_amount} convenienceFee={convenienceFee} />
+                <PriceDetail total_items_price={total_items_price} total_amount={total_amount} convenienceFee={convenienceFee} />
 
             </div>
 

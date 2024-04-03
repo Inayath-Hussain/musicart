@@ -35,6 +35,9 @@
 
     .place_order_button {
         text-wrap: nowrap;
+
+        height: fit-content;
+        align-self: center;
     }
 
 

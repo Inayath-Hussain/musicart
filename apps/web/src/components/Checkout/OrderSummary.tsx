@@ -5,12 +5,13 @@ import SecondaryButton from "../Common/SecondaryButton";
 
 
 interface Iprops {
-    total_amount: number
-    convenienceFee: number
+    total_items_price: string
+    convenienceFee: string
+    total_amount: string
     handleSubmit?: () => void
 }
 
-const OrderSummary: React.FC<Iprops> = ({ convenienceFee, total_amount, handleSubmit = () => { } }) => {
+const OrderSummary: React.FC<Iprops> = ({ total_items_price, convenienceFee, total_amount, handleSubmit = () => { } }) => {
 
     const { isDesktop } = useDeviceWidth();
 
@@ -41,7 +42,7 @@ const OrderSummary: React.FC<Iprops> = ({ convenienceFee, total_amount, handleSu
 
 
                     <div>
-                        <p>&#8377; {total_amount}</p>
+                        <p>&#8377; {total_items_price}</p>
                         <p>&#8377; {convenienceFee}</p>
                     </div>
                 </div>
@@ -51,7 +52,7 @@ const OrderSummary: React.FC<Iprops> = ({ convenienceFee, total_amount, handleSu
             {/* total order price */}
             <div className={`${styles.price_detail} ${styles.total}`}>
                 <p>Order Total :</p>
-                <p>&#8377; {total_amount + convenienceFee}</p>
+                <p>&#8377; {total_amount}</p>
             </div>
 
 

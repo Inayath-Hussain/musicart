@@ -1,24 +1,27 @@
-import { Route, Routes } from 'react-router-dom';
-import LoginPage from './pages/Users/Login';
-import RegisterPage from './pages/Users/Register';
-import { route } from './routes';
-import UserPage from './pages/Users/Index';
-import AddProductPage from './pages/Product/AddProductPage';
-import HomePage from './pages/HomePage';
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+
+import AuthOnlyRoute from './components/Common/AuthOnlyRoute';
+import { authTokenContext } from './context/authTokens';
 import CartPage from './pages/Cart/CartPage';
+import CheckoutPage from './pages/Checkout/CheckoutPage';
+import HomePage from './pages/HomePage';
 import InvoicesPage from './pages/Invoice/InvoicesPage';
+import AddProductPage from './pages/Product/AddProductPage';
 import ListProductsPage from './pages/Product/ListProductsPage';
 import ProductDetail from './pages/Product/ProductDetail';
+import LoginPage from './pages/Users/Login';
+import RegisterPage from './pages/Users/Register';
+import UserPage from './pages/Users/Index';
+import { route } from './routes';
+import { EmptyCart, getCartService } from './services/cart/getCartItems';
+import { UnauthorizedError } from './services/errors';
+import { getUserInfoService } from './services/user/getInfo';
 import { useGetProductsQuery } from './store/slices/productApi';
-import { useDispatch, useSelector } from 'react-redux';
 import { productQuerySelector } from './store/slices/productQuery';
-import { useContext, useEffect } from 'react';
-import { authTokenContext } from './context/authTokens';
-import { getCartService } from './services/cart/getCartItems';
 import { updateCart } from './store/slices/cartItems';
 import { updateUserName } from './store/slices/userSlice';
-import CheckoutPage from './pages/Checkout/CheckoutPage';
-import AuthOnlyRoute from './components/Common/AuthOnlyRoute';
 
 export function App() {
 
@@ -26,18 +29,50 @@ export function App() {
   const { queryString } = useSelector(productQuerySelector);
   useGetProductsQuery(queryString);
 
+  const navigate = useNavigate();
+
   const { accessToken, refreshToken } = useContext(authTokenContext);
+
+
+
 
   useEffect(() => {
 
     const call = async () => {
+      // get user's cart data
       getCartService()
         .then(result => {
-          dispatch(updateCart({ items: result.data, convenienceFee: Number(result.convenienceFee), total_amount: Number(result.totalAmount) }))
-          dispatch(updateUserName(result.username))
+          // if user has no items in cart
+          if (result instanceof EmptyCart) {
+            return dispatch(updateCart(0))
+          }
+
+          dispatch(updateCart(Number(result.total_items)))
         })
-        .catch(message => {
-          // error toast here
+        .catch(err => {
+          if (err instanceof UnauthorizedError) {
+            navigate(route.users.login)
+            // please login again toast
+            return
+          }
+
+          // couldn't get cart items. please try again later toast
+        })
+
+
+
+      getUserInfoService()
+        .then(name => {
+          dispatch(updateUserName(name))
+        })
+        .catch(err => {
+          if (err instanceof UnauthorizedError) {
+            navigate(route.users.login)
+            // please login again toast
+            return
+          }
+
+          // couldn't user name. please try again later toast
         })
     }
 
@@ -46,6 +81,12 @@ export function App() {
       call()
     }
   }, [accessToken, refreshToken])
+
+
+
+
+
+
 
   return (
     <>

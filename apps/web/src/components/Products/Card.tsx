@@ -1,13 +1,15 @@
+import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import CartIcon from "../Icons/Cart";
+import { authTokenContext } from "@web/context/authTokens";
+import { route } from "@web/routes";
+import { updateCartItem } from "@web/store/slices/cartItems";
+import { addToCartService } from "@web/services/cart/addToCart";
+
 
 import styles from "./Card.module.css";
-import { route } from "@web/routes";
-import { useDispatch, useSelector } from "react-redux";
-import { cartSelector, getQuantity, updateCartItem } from "@web/store/slices/cartItems";
-import { addToCartService } from "@web/services/cart/addToCart";
-import { useContext } from "react";
-import { authTokenContext } from "@web/context/authTokens";
 
 interface Iprops {
     imageURL: string
@@ -28,9 +30,6 @@ const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, i
 
     const { accessToken, refreshToken } = useContext(authTokenContext);
 
-    const { items } = useSelector(cartSelector);
-
-
 
     const addToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -38,10 +37,8 @@ const Card: React.FC<Iprops> = ({ imageURL, name, price, color, headphoneType, i
         // if user is authenticated send api request
         if (accessToken || refreshToken) {
 
-            const quantity = getQuantity(id, items)
-
-            addToCartService({ product_id: id, quantity: quantity + 1 }).then(result =>
-                dispatch(updateCartItem({ item: result.data, price }))
+            addToCartService({ product_id: id }).then(result =>
+                dispatch(updateCartItem(1))
             ).catch(message => {
                 // toast message here
             })

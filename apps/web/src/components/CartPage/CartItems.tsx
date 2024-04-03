@@ -1,33 +1,33 @@
-import { ICartPageData, IhandleQuantityChange } from "@web/pages/Cart/interface";
+import { IhandleQuantityChange } from "@web/pages/Cart/interface";
 import styles from "./CartItems.module.css";
 import { Fragment } from "react";
+import { ICartData } from "@web/services/cart/getCartItems";
 
 
 interface Iprops {
-    data: ICartPageData[]
+    data: ICartData["data"]
     quantityOptions: number[]
-    total_items: number
-    total_amount: number
+    total_items: string
 
-    getTotalOfItem: (product_id: string) => number
+    total_items_price: string
     handleQuantityChange: IhandleQuantityChange
 }
 
 /**
  * component made only for devices with screen width atleast 768px
  */
-const CartItems: React.FC<Iprops> = ({ data, getTotalOfItem, quantityOptions, total_items, total_amount, handleQuantityChange }) => {
+const CartItems: React.FC<Iprops> = ({ data, quantityOptions, total_items, total_items_price, handleQuantityChange }) => {
 
     return (
         <div className={styles.items_container}>
             <div className={styles.items_list_container}>
 
                 {data.map(p => (
-                    <Fragment key={p._id}>
+                    <Fragment key={p.id}>
 
                         <div className={styles.item}>
 
-                            <img src={p.main_image} alt="" />
+                            <img src={p.image} alt="" />
 
 
                             {/* name and color */}
@@ -56,7 +56,7 @@ const CartItems: React.FC<Iprops> = ({ data, getTotalOfItem, quantityOptions, to
                             <div>
                                 <p><b>Quantity</b></p>
                                 <select value={Number(p.quantity) > 8 ? 8 : p.quantity}
-                                    onChange={(e) => handleQuantityChange(p._id, Number(e.target.value), p.price)} >
+                                    onChange={(e) => handleQuantityChange(p.product_id, Number(e.target.value), Number(p.quantity))} >
                                     {quantityOptions.map(q => (
                                         <option key={q} value={q}>{q}</option>
                                     ))}
@@ -67,7 +67,7 @@ const CartItems: React.FC<Iprops> = ({ data, getTotalOfItem, quantityOptions, to
 
                             <div>
                                 <p><b>Total</b></p>
-                                <p>&#8377; {getTotalOfItem(p._id)}</p>
+                                <p>&#8377; {p.total_price}</p>
                             </div>
 
                         </div>
@@ -80,7 +80,7 @@ const CartItems: React.FC<Iprops> = ({ data, getTotalOfItem, quantityOptions, to
             <div className={`${styles.item} ${styles.total_container}`}>
                 <p className={styles.total_item}>{total_items} items</p>
 
-                <p className={styles.total_price_of_items}>{total_amount}</p>
+                <p className={styles.total_price_of_items}>{total_items_price}</p>
             </div>
         </div>
     );

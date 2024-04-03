@@ -6,8 +6,6 @@ import { productQuerySelector } from "@web/store/slices/productQuery";
 
 
 const ProductsList = () => {
-    const w = window.screen.width
-
     const { queryString } = useSelector(productQuerySelector);
 
     const { data } = useGetProductsQuery(queryString);
@@ -20,8 +18,6 @@ const ProductsList = () => {
                     headphoneType={d.headphone_type} price={d.price} id={d._id} />
             ))}
 
-
-            {w}
         </div>
     );
 }

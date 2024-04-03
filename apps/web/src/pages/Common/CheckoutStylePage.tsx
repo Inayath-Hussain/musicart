@@ -32,8 +32,9 @@ interface Iprops {
 
     products: IProduct[]
 
-    total_amount: number
-    convenienceFee: number
+    total_items_price: string
+    convenienceFee: string
+    total_amount: string
 
     handleSubmit?: () => Promise<void>
 
@@ -44,7 +45,8 @@ interface Iprops {
 const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
     address, handleAddressChange, addressError = "",
     paymentMethod, handlePaymentMethodChange, paymentMethodError = "",
-    products, convenienceFee, total_amount,
+    products,
+    total_items_price, convenienceFee, total_amount,
     handleSubmit = () => { }
 }) => {
 
@@ -88,7 +90,7 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
                             <SecondaryButton text="Place your order" handleClick={handleSubmit} className={styles.place_order_button} />
 
                             <div>
-                                <p className={styles.total_price}>Order Total : &#8377; {total_amount + convenienceFee}</p>
+                                <p className={styles.total_price}>Order Total : &#8377; {total_amount}</p>
                                 <p className={styles.order_terms}>By placing your order, you agree to Musicart privacy notice and conditions of use.</p>
                             </div>
                         </div>
@@ -97,7 +99,7 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
                 </div>
 
 
-                <OrderSummary convenienceFee={convenienceFee} total_amount={total_amount} handleSubmit={handleSubmit} />
+                <OrderSummary total_items_price={total_items_price} convenienceFee={convenienceFee} total_amount={total_amount} handleSubmit={handleSubmit} />
 
 
             </div>

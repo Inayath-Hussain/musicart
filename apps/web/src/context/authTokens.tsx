@@ -29,7 +29,7 @@ export const AuthTokenProvider: React.FC<PropsWithChildren> = ({ children }) => 
         removeCookie("refreshToken")
 
         // clear cart
-        dispatch(updateCart({ items: [], convenienceFee: 0, total_amount: 0 }))
+        dispatch(updateCart(0))
         // clear name
         dispatch(updateUserName(""))
     }

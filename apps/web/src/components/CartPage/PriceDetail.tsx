@@ -2,14 +2,15 @@ import styles from "./PriceDetail.module.css";
 
 
 interface Iprops {
-    total_amount: number
-    convenienceFee: number
+    total_items_price: string
+    convenienceFee: string
+    total_amount: string
 }
 
 /**
  * component made only for devices with screen width atleast 768px
  */
-const PriceDetail: React.FC<Iprops> = ({ convenienceFee, total_amount }) => {
+const PriceDetail: React.FC<Iprops> = ({ total_items_price, convenienceFee, total_amount }) => {
     return (
         <div className={styles.price_detail_container}>
 
@@ -19,7 +20,7 @@ const PriceDetail: React.FC<Iprops> = ({ convenienceFee, total_amount }) => {
 
                 <div className={styles.price_info}>
                     <p>Total MRP</p>
-                    <p>&#8377; {total_amount}</p>
+                    <p>&#8377; {total_items_price}</p>
                 </div>
 
                 <div className={styles.price_info}>
@@ -38,7 +39,7 @@ const PriceDetail: React.FC<Iprops> = ({ convenienceFee, total_amount }) => {
 
             <div className={`${styles.price_info} ${styles.price_total}`}>
                 <p>Total Amount</p>
-                <p>&#8377; {total_amount + convenienceFee}</p>
+                <p>&#8377; {total_amount}</p>
             </div>
 
 

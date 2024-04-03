@@ -3,27 +3,28 @@ import SecondaryButton from "../Common/SecondaryButton";
 import { route } from "@web/routes";
 
 import styles from "./CartPage.module.css";
-import { ICartPageData } from "@web/pages/Cart/interface";
+import { ICartData } from "@web/services/cart/getCartItems";
 
 
 
 interface Iprops {
-    total_amount: number
     quantityOptions: number[]
-    data: ICartPageData[]
+    data: ICartData["data"]
 
-    getTotalOfItem: (product_id: string) => number
+    convenienceFee: string
+    total_items_price: string
+    total_amount: string
 }
 
-const MobileCartPage: React.FC<Iprops> = ({ getTotalOfItem, total_amount, data }) => {
+const MobileCartPage: React.FC<Iprops> = ({ total_amount, data }) => {
 
     return (
         <div className={styles.items_container}>
 
             {data && data.map(p => (
-                <div className={styles.item} key={p._id}>
+                <div className={styles.item} key={p.id}>
 
-                    <img src={p.main_image} alt="" className={styles.image} />
+                    <img src={p.image} alt="" className={styles.image} />
 
 
                     <div className={styles.info_container}>
@@ -48,7 +49,7 @@ const MobileCartPage: React.FC<Iprops> = ({ getTotalOfItem, total_amount, data }
                         <div className={styles.total_price_container}>
                             <p>Total :</p>
 
-                            <p className={styles.total_price}>&#8377; {getTotalOfItem(p._id)}</p>
+                            <p className={styles.total_price}>&#8377; {p.total_price}</p>
                         </div>
 
                     </div>

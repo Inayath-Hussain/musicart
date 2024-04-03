@@ -1,69 +1,119 @@
-import { useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
-import { ICartPageData } from "./interface";
-import DesktopBranding from "@web/components/Desktop/DesktopBrandingAndProfile";
+import { IhandleQuantityChange } from "./interface";
 import GoBackButton from "@web/components/Common/GoBackButton";
-import MobileCartPage from "@web/components/Mobile/CartPage";
+import DesktopBranding from "@web/components/Desktop/DesktopBrandingAndProfile";
 import DesktopCartPage from "@web/components/Desktop/CartPage";
+import MobileCartPage from "@web/components/Mobile/CartPage";
+import { authTokenContext } from "@web/context/authTokens";
 import useDeviceWidth from "@web/hooks/useDeviceWidth";
-import { cartSelector, updateCartItem } from "@web/store/slices/cartItems";
-import { useGetProductsQuery } from "@web/store/slices/productApi";
+import { useOnline } from "@web/hooks/useOnline";
+import { AddToCartBodyError, addToCartService } from "@web/services/cart/addToCart";
+import { UnauthorizedError } from "@web/services/errors";
+import { EmptyCart, ICartData, getCartService } from "@web/services/cart/getCartItems";
+import { updateCart, updateCartItem } from "@web/store/slices/cartItems";
+import { route } from "@web/routes";
 
 
 import styles from "./CartPage.module.css"
-import { addToCartService } from "@web/services/cart/addToCart";
 
 
 
 const CartPage = () => {
 
-    const [quantityOptions] = useState(Array.from({ length: 8 }, (_, index) => index + 1))
+    const { accessToken, refreshToken, logout } = useContext(authTokenContext)
+
+    const { isOnline } = useOnline();
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+
+    const redirectRoute = `${route.users.login}?path=${pathname}`
+    if (!accessToken || !refreshToken) {
+
+
+        return (
+            <Navigate to={redirectRoute} replace />
+        )
+    }
 
     const dispatch = useDispatch();
 
+    // function to get cart user's cart data
+    const call = () => {
+
+        if (isOnline === false) return // you are offline toast here
+
+        setLoading(true);
+        getCartService()
+            .then(result => {
+                setLoading(false);
+                if (result instanceof EmptyCart) {
+                    // no cart items toast
+                    return navigate(route.home)
+                }
+
+                setCartData(result)
+                dispatch(updateCart(Number(result.total_items)))
+            })
+            .catch(err => {
+                setLoading(false);
+                if (err instanceof UnauthorizedError) {
+                    navigate(redirectRoute)
+                    logout();
+                    // please login again toast
+                    return
+                }
+
+                // err message toast
+            })
+    }
+
+    useEffect(() => {
+        call();
+    }, [])
+
+    const [loading, setLoading] = useState(false);
+
+    const [cartData, setCartData] = useState<ICartData | null>(null);
+
+    const [quantityOptions] = useState(Array.from({ length: 8 }, (_, index) => index + 1))
+
     const { isDesktop } = useDeviceWidth();
 
-    const { items, convenienceFee, total_amount, total_items } = useSelector(cartSelector)
-
-    const { data } = useGetProductsQuery("")
-
-    const getProducts = () => {
-
-        let result: ICartPageData[] = []
-
-        for (let i of items) {
-            const product = data?.data.find(p => p._id === i.product)
-
-            if (product) {
-                result.push({ ...product, quantity: i.quantity })
-            }
-        }
-        return result
-    }
-
-    const cartInfo = useMemo(getProducts, [items, data])
 
 
+    const handleQuantityChange: IhandleQuantityChange = async (product_id, newQuantity, prevQuantity) => {
 
-    const handleQuantityChange = async (product_id: string, quantity: number, price: number) => {
-        addToCartService({ product_id, quantity })
+        if (isOnline === false) return // you are offline toast
+
+        addToCartService({ product_id, quantity: newQuantity })
             .then(result => {
-                dispatch(updateCartItem({ item: { product: result.data.product_id, quantity: result.data.quantity }, price }))
+                // get difference between previous quantity and now quantity
+                const diff = newQuantity - prevQuantity
+                dispatch(updateCartItem(diff))
+
+                call();
             })
-            .catch(message => {
-                //toast message here
+            .catch(err => {
+
+                if (err instanceof AddToCartBodyError) {
+                    console.log(err)
+                }
+
+                if (err instanceof UnauthorizedError) {
+                    navigate(redirectRoute)
+                    logout();
+                    // please login again toast
+                    return
+                }
+
+                //toast message err.message here
             })
 
     }
 
-    // calculate's the total of one particular item
-    const getTotalOfItem = (product_id: string) => {
-
-        const item = cartInfo.find(i => i._id === product_id)
-
-        return Number(item?.price) * Number(item?.quantity)
-    }
 
     return (
         <div className={styles.cart_page_layout}>
@@ -79,13 +129,22 @@ const CartPage = () => {
             <GoBackButton />
 
             {
-                isDesktop ?
-                    <DesktopCartPage data={cartInfo} quantityOptions={quantityOptions} total_amount={total_amount}
-                        convenienceFee={convenienceFee} total_items={total_items}
-                        getTotalOfItem={getTotalOfItem} handleQuantityChange={handleQuantityChange} />
+                loading ?
+
+                    <h1>Please wait fetching your cart .... </h1>
                     :
-                    <MobileCartPage data={cartInfo} total_amount={total_amount} quantityOptions={quantityOptions}
-                        getTotalOfItem={getTotalOfItem} />
+                    cartData === null ?
+
+                        <h1>Some Error occurred</h1>
+                        :
+                        isDesktop ?
+                            <DesktopCartPage data={cartData.data} quantityOptions={quantityOptions}
+                                total_items_price={cartData.total_items_price} convenienceFee={cartData.convenienceFee} total_amount={cartData.totalAmount}
+                                total_items={cartData.total_items}
+                                handleQuantityChange={handleQuantityChange} />
+                            :
+                            <MobileCartPage data={cartData.data} quantityOptions={quantityOptions}
+                                total_amount={cartData.totalAmount} convenienceFee={cartData.convenienceFee} total_items_price={cartData.total_items_price} />
             }
 
         </div>

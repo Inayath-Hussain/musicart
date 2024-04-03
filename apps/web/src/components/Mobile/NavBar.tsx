@@ -19,7 +19,7 @@ const NavBar = () => {
     const { pathname } = useLocation();
 
     const { accessToken, refreshToken, logout } = useContext(authTokenContext);
-    const { total_items } = useSelector(cartSelector)
+    const total_items = useSelector(cartSelector)
 
 
     const getLineClass = (route: string) => route === pathname ? `${styles.line} ${styles.active_link_line}` : styles.line
