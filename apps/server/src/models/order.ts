@@ -1,6 +1,7 @@
 import { Schema, Types, model } from "mongoose";
 
 
+export const paymentMethodEnum = ["POD", "UPI", "Card"] as const
 
 export interface IOrder {
     user: Types.ObjectId
@@ -11,6 +12,9 @@ export interface IOrder {
         quantity: number
         price: number
     }[]
+
+    address: string
+    paymentMethod: typeof paymentMethodEnum[number]
 
     deliveryFee: number
     total_item_prices: number
@@ -25,6 +29,10 @@ const orderSchema = new Schema<IOrder>({
         quantity: { type: Number, required: true },
         price: { type: Number, required: true }
     }],
+
+    address: { type: String, required: true },
+    paymentMethod: { type: String, required: true },
+
     deliveryFee: { type: Number, required: true },
     total_item_prices: { type: Number, required: true }
 })

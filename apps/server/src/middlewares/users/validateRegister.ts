@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { RegisterBodyError } from "./errors";
-import { emailValidator, mobileNumberValidator, nameValidator, passwordValidator, sanitize } from "./validator";
+import { emailValidator, mobileNumberValidator, nameValidator, passwordValidator } from "./validator";
+import { sanitizeAll } from "../sanitizeBase";
 
 
 export interface IRegisterBody {
@@ -11,14 +12,13 @@ export interface IRegisterBody {
 }
 
 export const validateRegisterBody: RequestHandler<{}, {}, IRegisterBody> = (req, res, next) => {
-    let { email, mobileNumber, name, password } = req.body
 
-    email = sanitize(email)
-    mobileNumber = sanitize(mobileNumber)
-    name = sanitize(name)
-    password = sanitize(password)
+    sanitizeAll(req.body)
+
+    const { email, mobileNumber, name, password } = req.body
 
     const errorObj = new RegisterBodyError("Invalid body");
+
 
     const emailValidationResult = emailValidator(email)
     if (emailValidationResult.valid === false) errorObj.addFieldErrors("email", emailValidationResult.errorMessage)

@@ -1,10 +1,4 @@
-import { isEmail, isLength, isNumeric, isStrongPassword, trim } from "validator";
-
-
-export const sanitize = (value: any) => {
-    if (typeof value === "string") return trim(value)
-    return value
-}
+import { isEmail, isLength, isNumeric, isStrongPassword } from "validator";
 
 
 interface Valid {

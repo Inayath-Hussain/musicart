@@ -1,14 +1,6 @@
+import { IBodyErrorBase } from "../errorsBase";
 import { ILoginBody } from "./validateLogin";
 import { IRegisterBody } from "./validateRegister";
-
-
-interface IBodyErrorBase<T> {
-    message: string
-    errors: {
-        [P in keyof Partial<T>]: string
-    }
-}
-
 
 
 

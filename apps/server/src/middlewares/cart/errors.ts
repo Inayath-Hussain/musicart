@@ -1,11 +1,5 @@
+import { IBodyErrorBase } from "../errorsBase";
 import { IAddToCartBody } from "./validateAddToCartBody"
-
-interface IBodyErrorBase<T> {
-    message: string
-    errors: {
-        [P in keyof Partial<T>]: string
-    }
-}
 
 
 type IAddToCartBodyError = IBodyErrorBase<IAddToCartBody>

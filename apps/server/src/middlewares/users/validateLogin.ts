@@ -1,6 +1,7 @@
 import { RequestHandler } from "express"
 import { LoginBodyError } from "./errors"
 import { identifierValidator } from "./validator"
+import { sanitizeAll } from "../sanitizeBase"
 
 
 export interface ILoginBody {
@@ -10,6 +11,9 @@ export interface ILoginBody {
 }
 
 export const validateLoginBody: RequestHandler<{}, {}, ILoginBody> = (req, res, next) => {
+
+    sanitizeAll(req.body)
+
     const { password, identifier } = req.body;
 
     const errorObj = new LoginBodyError("Invalid body");
