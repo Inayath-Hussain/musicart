@@ -34,8 +34,8 @@ export const addressValidator = (value: any): Valid | InValid => {
 
 export const paymentMethodValidator = (value: any): Valid | InValid => {
     switch (true) {
-        case (typeof value === "string"):
-            return { valid: false, errorMessage: "payment method should be of type sriing" }
+        case (typeof value !== "string"):
+            return { valid: false, errorMessage: "payment method should be of type string" }
 
 
         case (value === ""):
