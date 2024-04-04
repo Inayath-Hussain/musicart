@@ -1,10 +1,13 @@
 import { useSelector } from "react-redux";
+
 import GridCard from "./GridCard";
+import ListItem from "./ListItem";
+import useDeviceWidth from "@web/hooks/useDeviceWidth";
 import { useGetProductsQuery } from "@web/store/slices/productApi";
 import { productQuerySelector } from "@web/store/slices/productQuery";
 
+
 import styles from "./ProductsList.module.css";
-import ListItem from "./ListItem";
 
 
 export type ViewStyle = "grid" | "list"
@@ -13,6 +16,7 @@ interface Iprops {
 }
 
 const ProductsList: React.FC<Iprops> = ({ viewStyle }) => {
+    const { isDesktop } = useDeviceWidth();
     const { queryString } = useSelector(productQuerySelector);
 
     const { data } = useGetProductsQuery(queryString);
@@ -24,14 +28,14 @@ const ProductsList: React.FC<Iprops> = ({ viewStyle }) => {
 
             {data?.data.map(d => (
 
-                viewStyle === "grid" ?
+                (viewStyle === "list" && isDesktop) ?
 
-                    <GridCard key={d.name} color={d.color} name={d.name} imageURL={d.main_image}
+                    <ListItem key={d._id} name={d.name} fullTitle={d.full_title} color={d.color} imageURL={d.main_image}
                         headphoneType={d.headphone_type} price={d.price} id={d._id} />
 
                     :
 
-                    <ListItem key={d._id} name={d.name} fullTitle={d.full_title} color={d.color} imageURL={d.main_image}
+                    <GridCard key={d.name} color={d.color} name={d.name} imageURL={d.main_image}
                         headphoneType={d.headphone_type} price={d.price} id={d._id} />
             ))}
 
