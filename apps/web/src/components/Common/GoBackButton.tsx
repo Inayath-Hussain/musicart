@@ -20,7 +20,7 @@ const GoBackButton: React.FC<Iprops> = ({ link = route.home, text = "Back to pro
         <Link to={link} className={styles.go_back_link}>
             {isDesktop ?
                 <button className={styles.desktop_button}>
-                    Back to products
+                    {text}
                 </button>
                 :
                 <button className={styles.go_back_button}>

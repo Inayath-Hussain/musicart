@@ -14,7 +14,6 @@ import styles from "./CheckoutStyle.module.css";
 
 
 interface IProduct {
-    id: string
     image: string
     name: string
     color: string
@@ -32,9 +31,9 @@ interface Iprops {
 
     products: IProduct[]
 
-    total_items_price: string
-    convenienceFee: string
-    total_amount: string
+    total_items_price: number
+    convenienceFee: number
+    total_amount: number
 
     handleSubmit?: () => Promise<void>
 
@@ -56,6 +55,8 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
 
     const viewOnly = type === "invoice" ? true : false
 
+    const headerText = type === "checkout" ? "Checkout" : "Invoice"
+
     return (
         <div className={styles.checkout_page_layout}>
 
@@ -69,7 +70,7 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
             <GoBackButton link={backButtonConfig.link} text={backButtonConfig.text} />
 
 
-            <h1 className={styles.checkout_page_header}>Checkout</h1>
+            <h1 className={styles.checkout_page_header}>{headerText}</h1>
 
 
             {/* grid for width's starting from 768px */}
@@ -84,7 +85,7 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
 
 
                     {
-                        isDesktop &&
+                        (isDesktop && viewOnly === false) &&
                         <div className={styles.place_order_container}>
 
                             <SecondaryButton text="Place your order" handleClick={handleSubmit} className={styles.place_order_button} />
@@ -99,7 +100,8 @@ const CheckoutStylePage: React.FC<Iprops> = ({ type, displayRoute,
                 </div>
 
 
-                <OrderSummary total_items_price={total_items_price} convenienceFee={convenienceFee} total_amount={total_amount} handleSubmit={handleSubmit} />
+                <OrderSummary viewOnly={viewOnly}
+                    total_items_price={total_items_price} convenienceFee={convenienceFee} total_amount={total_amount} handleSubmit={handleSubmit} />
 
 
             </div>

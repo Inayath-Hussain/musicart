@@ -3,7 +3,7 @@ import { apiURLs } from "../URLs"
 import { axiosInstance } from "../instance"
 import { UnauthorizedError } from "../errors"
 
-interface Iresult {
+export interface IOrderDetail {
     _id: string
     user: string
 
@@ -22,18 +22,19 @@ interface Iresult {
 
     total_items: number
 
-    deliveryFee: number
     total_items_price: number
+    deliveryFee: number
+    total_amount: number
 }
 
 
 
 export const getOrderService = (id: string) =>
-    new Promise(async (resolve, reject) => {
+    new Promise<IOrderDetail>(async (resolve, reject) => {
         try {
-            const result = await axiosInstance.get<Iresult>(apiURLs.getOrder(id), { withCredentials: true })
+            const result = await axiosInstance.get<IOrderDetail>(apiURLs.getOrder(id), { withCredentials: true })
 
-            return resolve(result)
+            return resolve(result.data)
         }
         catch (ex) {
             if (ex instanceof AxiosError) {
@@ -48,12 +49,12 @@ export const getOrderService = (id: string) =>
 
 
                     default:
-                        return reject(ex.response?.data.message || 'Please try again later')
+                        return reject(ex.response?.data || { message: 'Please try again later' })
                 }
             }
 
             console.log(ex)
-            return reject("Please try again later")
+            return reject({ message: "Please try again later" })
         }
     })
 

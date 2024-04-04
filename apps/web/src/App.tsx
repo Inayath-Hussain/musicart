@@ -22,6 +22,7 @@ import { useGetProductsQuery } from './store/slices/productApi';
 import { productQuerySelector } from './store/slices/productQuery';
 import { updateCart } from './store/slices/cartItems';
 import { updateUserName } from './store/slices/userSlice';
+import InvoiceDetailPage from './pages/Invoice/InvoiceDetailPage';
 
 export function App() {
 
@@ -111,7 +112,7 @@ export function App() {
           <Route path={route.cart} element={<AuthOnlyRoute> <CartPage /> </AuthOnlyRoute>} />
           <Route path={route.checkout} element={<AuthOnlyRoute> <CheckoutPage /> </AuthOnlyRoute>} />
           <Route path={route.invoices.index} element={<AuthOnlyRoute> <InvoiceListPage /> </AuthOnlyRoute>} />
-          <Route path={route.invoices.id(":id")} element={<AuthOnlyRoute>  </AuthOnlyRoute>} />
+          <Route path={route.invoices.id(":id")} element={<AuthOnlyRoute> <InvoiceDetailPage /> </AuthOnlyRoute>} />
         </Route>
 
       </Routes>

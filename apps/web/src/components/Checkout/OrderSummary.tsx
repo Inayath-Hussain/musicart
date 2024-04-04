@@ -5,13 +5,14 @@ import SecondaryButton from "../Common/SecondaryButton";
 
 
 interface Iprops {
-    total_items_price: string
-    convenienceFee: string
-    total_amount: string
+    viewOnly: boolean
+    total_items_price: number
+    convenienceFee: number
+    total_amount: number
     handleSubmit?: () => void
 }
 
-const OrderSummary: React.FC<Iprops> = ({ total_items_price, convenienceFee, total_amount, handleSubmit = () => { } }) => {
+const OrderSummary: React.FC<Iprops> = ({ total_items_price, convenienceFee, total_amount, viewOnly, handleSubmit = () => { } }) => {
 
     const { isDesktop } = useDeviceWidth();
 
@@ -20,7 +21,7 @@ const OrderSummary: React.FC<Iprops> = ({ total_items_price, convenienceFee, tot
         <div className={styles.order_layout}>
 
             {
-                isDesktop &&
+                (isDesktop && viewOnly === false) &&
                 <p className={styles.order_terms}>
                     By placing your order, you agree to Musicart privacy
                     notice and conditions of use.
@@ -57,7 +58,7 @@ const OrderSummary: React.FC<Iprops> = ({ total_items_price, convenienceFee, tot
 
 
             {/* place order button */}
-            <SecondaryButton text="Place your order" className={styles.place_order_button} handleClick={handleSubmit} />
+            {viewOnly === false && <SecondaryButton text="Place your order" className={styles.place_order_button} handleClick={handleSubmit} />}
 
         </div>
     );

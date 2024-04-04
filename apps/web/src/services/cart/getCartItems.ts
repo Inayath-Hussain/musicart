@@ -9,19 +9,19 @@ interface ICartItem {
     name: string
     available: boolean
     color: string
-    quantity: string
-    price: string
-    total_price: string
+    quantity: number
+    price: number
+    total_price: number
     image: string
 }
 
 export interface ICartData {
     data: ICartItem[]
     username: string
-    convenienceFee: string
-    totalAmount: string
-    total_items_price: string
-    total_items: string
+    convenienceFee: number
+    totalAmount: number
+    total_items_price: number
+    total_items: number
 }
 
 

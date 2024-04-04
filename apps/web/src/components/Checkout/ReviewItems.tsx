@@ -7,7 +7,6 @@ import styles from "./ReviewItems.module.css";
 
 
 interface Idata {
-    id: string
     image: string
     name: string
     color: string
@@ -19,16 +18,16 @@ interface Iprops {
 
 const ReviewItemsSection: React.FC<Iprops> = ({ data }) => {
 
-    const [selectedProduct, setSelectedProduct] = useState(data[0].id);
+    const [selectedProduct, setSelectedProduct] = useState(data[0].image);
 
-    const productInfo = data.find(d => d.id === selectedProduct);
+    const productInfo = data.find(d => d.image === selectedProduct);
 
     return (
         <CheckoutSection text="3. Review items and delivery">
             <div className={styles.images_grid}>
 
                 {data.map(d => (
-                    <img src={d.image} alt="" className={styles.image} onClick={() => setSelectedProduct(d.id)} key={d.id} />
+                    <img src={d.image} alt="" className={styles.image} onClick={() => setSelectedProduct(d.image)} key={d.image} />
                 ))}
 
             </div>
