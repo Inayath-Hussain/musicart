@@ -12,6 +12,7 @@ import { updateCartItem } from "@web/store/slices/cartItems";
 
 
 import styles from "./ProductImage.module.css";
+import { toast } from "react-toastify";
 
 
 interface Iprops {
@@ -32,7 +33,7 @@ const ProductImage: React.FC<Iprops> = ({ imageURL, id }) => {
     const addToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        if (isOnline === false) return // you are offline toast
+        if (isOnline === false) return toast("you are offline")
 
         const redirectURL = route.users.login + `?path=${pathname}`
 
@@ -45,11 +46,11 @@ const ProductImage: React.FC<Iprops> = ({ imageURL, id }) => {
                 if (err instanceof UnauthorizedError) {
                     navigate(redirectURL)
                     logout();
-                    // please login again toast
+                    toast("please login again")
                     return
                 }
 
-                // toast message here
+                toast(err.message)
             })
             return
         }

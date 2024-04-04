@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
 
 import AuthOnlyRoute from './components/Common/AuthOnlyRoute';
 import { authTokenContext } from './context/authTokens';
@@ -23,6 +24,9 @@ import { productQuerySelector } from './store/slices/productQuery';
 import { updateCart } from './store/slices/cartItems';
 import { updateUserName } from './store/slices/userSlice';
 import InvoiceDetailPage from './pages/Invoice/InvoiceDetailPage';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export function App() {
 
@@ -54,10 +58,12 @@ export function App() {
           if (err instanceof UnauthorizedError) {
             navigate(route.users.login)
             // please login again toast
+            toast("Please login again")
             return
           }
 
           // couldn't get cart items. please try again later toast
+          toast("Couldn't get cart items")
         })
 
 
@@ -70,10 +76,12 @@ export function App() {
           if (err instanceof UnauthorizedError) {
             navigate(route.users.login)
             // please login again toast
+
             return
           }
 
           // couldn't user name. please try again later toast
+          toast("Couldn't get user name")
         })
     }
 
@@ -116,6 +124,8 @@ export function App() {
         </Route>
 
       </Routes>
+
+      <ToastContainer />
     </>
   );
 }

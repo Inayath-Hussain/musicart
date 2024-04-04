@@ -19,7 +19,7 @@ const ViewButtons: React.FC<Iprops> = ({ viewStyle, handleViewStyleChange }) => 
         <div className={styles.view_buttons_container}>
             <label>
                 <GridIcon fill={getFillColor("grid")} />
-                <input type="radio" name="view_button" defaultChecked className={styles.input}
+                <input type="radio" name="view_button" className={styles.input}
                     checked={viewStyle === "grid"} onChange={() => handleViewStyleChange("grid")} />
             </label>
 

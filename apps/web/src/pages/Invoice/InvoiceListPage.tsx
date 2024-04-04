@@ -15,6 +15,7 @@ import { IOrderList, getOrderListService } from "@web/services/order/getOrderLis
 import { userSliceSelector } from "@web/store/slices/userSlice";
 
 import styles from "./InvoiceListPage.module.css";
+import { toast } from "react-toastify";
 
 
 
@@ -34,7 +35,7 @@ const InvoiceListPage = () => {
 
         const call = async () => {
             if (isOnline === false) {
-                // you are offline toast
+                toast("you are offline")
                 setError("You are offline")
                 return
             }
@@ -54,11 +55,11 @@ const InvoiceListPage = () => {
                         case (err instanceof UnauthorizedError):
                             navigate(redirectURL);
                             logout();
-                            // please login again toast
+                            toast("please login again")
                             return
 
                         default:
-                            // Please try again later toast
+                            toast("Please try again later")
                             navigate(route.home)
                     }
                 })

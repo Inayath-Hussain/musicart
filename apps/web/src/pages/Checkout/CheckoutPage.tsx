@@ -11,6 +11,7 @@ import { UnauthorizedError } from "@web/services/errors";
 import { EmptyCart, ICartData, getCartService } from "@web/services/cart/getCartItems";
 import { useDispatch } from "react-redux";
 import { updateCart } from "@web/store/slices/cartItems";
+import { toast } from "react-toastify";
 
 
 
@@ -26,7 +27,7 @@ const CheckoutPage: React.FC = () => {
 
             if (result instanceof EmptyCart) {
                 navigate(route.home)
-                // no items in cart toast
+                toast("no items in cart")
                 return
             }
 
@@ -34,7 +35,6 @@ const CheckoutPage: React.FC = () => {
         }
 
         call();
-        // make api call to get cart
     }, [])
 
     const [cartItems, setCartItems] = useState<ICartData | null>(null);
@@ -74,7 +74,7 @@ const CheckoutPage: React.FC = () => {
     const handleSubmit = async () => {
 
         if (isOnline === false) {
-            // toast you are offline
+            toast("you are offline")
             return
         }
 
@@ -87,7 +87,7 @@ const CheckoutPage: React.FC = () => {
         try {
             await placeOrderService({ address, paymentMethod })
 
-            // toast message here
+            toast("order placed", { type: "success" })
             setOrderPlaced(true)
             setErrors(initalErrors)
             setAddress("");
@@ -103,13 +103,13 @@ const CheckoutPage: React.FC = () => {
                     break;
 
                 case (ex instanceof UnauthorizedError):
-                    // toast message please login again
+                    toast("please login again")
                     logout();
                     navigate(route.users.login);
                     break;
 
                 case (ex instanceof NoCartItems):
-                    // toast message no cart items found
+                    toast("no cart items found")
                     navigate(route.home);
             }
             console.log(ex)

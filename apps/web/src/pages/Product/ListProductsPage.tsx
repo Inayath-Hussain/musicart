@@ -18,8 +18,7 @@ const ListProductsPage = () => {
 
     const { isDesktop } = useDeviceWidth();
 
-    const { data, isError } = useGetProductsQuery("");
-    console.log(data, isError)
+    useGetProductsQuery("");
 
 
     const [viewStyle, setViewStyle] = useState<ViewStyle>("grid");

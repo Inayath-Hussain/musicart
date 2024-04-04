@@ -10,6 +10,7 @@ import { AddFeedbackBodyError, addFeedbackService } from "@web/services/feedback
 import { UnauthorizedError } from "@web/services/errors";
 import { useNavigate } from "react-router-dom";
 import { route } from "@web/routes";
+import { toast } from "react-toastify";
 
 
 
@@ -85,13 +86,14 @@ const FeedBack = () => {
 
         if (isValid === false) return
         if (isOnline === false) {
-            // you are offline toast
+            toast("you are offline")
             return
         }
 
         addFeedbackService({ feedback, feedbackType })
             .then(() => {
-                // toast feedback added
+                toast("feedback added")
+
                 setOpenForm(false);
                 setErrors(initialErrors);
                 setFeedback("");
@@ -100,7 +102,7 @@ const FeedBack = () => {
             .catch(err => {
                 if (err instanceof UnauthorizedError) {
                     navigate(route.users.login + "?path=" + route.home)
-                    // please login again toast
+                    toast("please login again")
                     return
                 }
 
@@ -109,7 +111,7 @@ const FeedBack = () => {
                     return
                 }
 
-                // err.message toast
+                toast(err.message)
             })
 
     }

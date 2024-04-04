@@ -7,6 +7,7 @@ import { route } from "@web/routes";
 import { UnauthorizedError } from "@web/services/errors";
 import { useOnline } from "@web/hooks/useOnline";
 import CheckoutStylePage from "../Common/CheckoutStylePage";
+import { toast } from "react-toastify";
 
 
 const InvoiceDetailPage = () => {
@@ -23,7 +24,7 @@ const InvoiceDetailPage = () => {
         const call = () => {
 
             if (isOnline === false) {
-                // you are offline toast
+                toast("you are offline")
                 return
             }
 
@@ -39,19 +40,19 @@ const InvoiceDetailPage = () => {
                     switch (true) {
                         case (err instanceof UnauthorizedError):
                             navigate(route.users.login + "?path=" + pathname)
-                            // Please login again toast
+                            toast("Please login again")
                             logout();
                             return
 
                         case (err instanceof OrderNotFound):
                             navigate(route.home);
-                            // Order Not Found toast
+                            toast("Order Not Found")
                             return
 
 
                         default:
                             navigate(route.home)
-                            // err.message toast
+                            toast(err.message)
                             return
 
                     }

@@ -18,6 +18,7 @@ import { route } from "@web/routes";
 
 
 import styles from "./CartPage.module.css"
+import { toast } from "react-toastify";
 
 
 
@@ -43,14 +44,14 @@ const CartPage = () => {
     // function to get cart user's cart data
     const call = () => {
 
-        if (isOnline === false) return // you are offline toast here
+        if (isOnline === false) return toast("you are offline")
 
         setLoading(true);
         getCartService()
             .then(result => {
                 setLoading(false);
                 if (result instanceof EmptyCart) {
-                    // no cart items toast
+                    toast("no cart items")
                     return navigate(route.home)
                 }
 
@@ -62,11 +63,11 @@ const CartPage = () => {
                 if (err instanceof UnauthorizedError) {
                     navigate(redirectRoute)
                     logout();
-                    // please login again toast
+                    toast("please login again")
                     return
                 }
 
-                // err message toast
+                toast(err.message)
             })
     }
 
@@ -86,7 +87,10 @@ const CartPage = () => {
 
     const handleQuantityChange: IhandleQuantityChange = async (product_id, newQuantity, prevQuantity) => {
 
-        if (isOnline === false) return // you are offline toast
+        if (isOnline === false) {
+            toast("you are offline")
+            return
+        }
 
         addToCartService({ product_id, quantity: newQuantity })
             .then(result => {
@@ -105,11 +109,11 @@ const CartPage = () => {
                 if (err instanceof UnauthorizedError) {
                     navigate(redirectRoute)
                     logout();
-                    // please login again toast
+                    toast("please login again")
                     return
                 }
 
-                //toast message err.message here
+                toast(err.message)
             })
 
     }

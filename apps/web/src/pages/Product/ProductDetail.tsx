@@ -18,6 +18,7 @@ import DesktopProductDetail from "@web/components/Desktop/ProductDetail";
 
 import styles from "./ProductDetail.module.css";
 import { UnauthorizedError } from "@web/services/errors";
+import { toast } from "react-toastify";
 
 
 const ProductDetail = () => {
@@ -57,11 +58,11 @@ const ProductDetail = () => {
                     switch (true) {
                         case (err instanceof UnauthorizedError):
                             navigate(route.users.login)
-                            // please login again toast
+                            toast("please login again")
                             return
 
                         default:
-                            // toast message err.message
+                            toast(err.message)
                             return
                     }
                 })
