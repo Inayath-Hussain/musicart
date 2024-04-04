@@ -17,7 +17,7 @@ export interface IOrder {
     paymentMethod: typeof paymentMethodEnum[number]
 
     deliveryFee: number
-    total_item_prices: number
+    total_items_price: number
 }
 
 const orderSchema = new Schema<IOrder>({
@@ -34,7 +34,7 @@ const orderSchema = new Schema<IOrder>({
     paymentMethod: { type: String, required: true },
 
     deliveryFee: { type: Number, required: true },
-    total_item_prices: { type: Number, required: true }
+    total_items_price: { type: Number, required: true }
 })
 
 

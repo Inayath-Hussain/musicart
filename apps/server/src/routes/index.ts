@@ -10,6 +10,6 @@ const router = Router();
 router.use("/user", userRouter)
 router.use("/product", productRouter)
 router.use("/cart", cartRouter)
-router.use("/order", orderRouter)
+router.use("/orders", orderRouter)
 
 export { router as mainRouter }

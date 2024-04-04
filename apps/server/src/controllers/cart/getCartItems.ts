@@ -18,13 +18,13 @@ export const getCartItemsController: RequestHandler = async (req, res, next) => 
 
     const convenienceFee = env.CONVENIENCE_FEE;
 
-    const totalAmount = cartData.total_item_prices + convenienceFee;
+    const totalAmount = cartData.total_items_price + convenienceFee;
 
 
     return res.status(200).json({
         data: cartData.items,
         username: userDoc.name,
-        total_items_price: cartData.total_item_prices,
+        total_items_price: cartData.total_items_price,
         total_items: cartData.total_items,
         convenienceFee,
         totalAmount

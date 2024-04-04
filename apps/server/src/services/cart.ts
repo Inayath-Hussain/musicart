@@ -4,7 +4,7 @@ import { Cart } from "../models/cart";
 
 interface IGetCartResult {
     total_items: number
-    total_item_prices: number
+    total_items_price: number
 
     items: {
         id: Types.ObjectId
@@ -47,14 +47,14 @@ class CartService {
             { $unwind: "$product" },
             { $project: { _id: 1, user: "$user", product_id: "$product._id", product_name: "$product.name", available: "$product.available", color: "$product.color", image: "$product.main_image", price: "$product.price", quantity: "$quantity", total_price: { $multiply: ["$quantity", "$product.price"] }, } },
 
-            { $group: { _id: null, items: { $push: { id: "$_id", product_id: "$product_id", name: "$product_name", available: "#available", image: "$image", color: "$color", quantity: "$quantity", price: "$price", total_price: "$total_price" } }, total_items: { $sum: "$quantity" }, total_item_prices: { $sum: "$total_price" } } }
+            { $group: { _id: null, items: { $push: { id: "$_id", product_id: "$product_id", name: "$product_name", available: "#available", image: "$image", color: "$color", quantity: "$quantity", price: "$price", total_price: "$total_price" } }, total_items: { $sum: "$quantity" }, total_items_price: { $sum: "$total_price" } } }
         ])
 
         const data = result.length !== 0 ? result[0] : null;
 
         if (data === null) return null;
 
-        return { items: data.items, total_items: data.total_items, total_item_prices: data.total_item_prices }
+        return { items: data.items, total_items: data.total_items, total_items_price: data.total_items_price }
     }
 
 

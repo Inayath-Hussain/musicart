@@ -25,7 +25,7 @@ export const placeOrderController: RequestHandler<{}, {}, IPlaceOrderBody> = asy
     if (cartData === null) return res.status(400).json({ message: "no items in cart" })
 
 
-    const { items, total_item_prices } = cartData;
+    const { items, total_items_price } = cartData;
 
     const { CONVENIENCE_FEE } = env;
 
@@ -34,7 +34,7 @@ export const placeOrderController: RequestHandler<{}, {}, IPlaceOrderBody> = asy
         user: userDoc._id,
         deliveryFee: CONVENIENCE_FEE,
         products: items,
-        total_item_prices,
+        total_items_price,
         address,
         paymentMethod: paymentMethod as IPaymentMethodType
     })
