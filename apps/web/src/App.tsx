@@ -7,7 +7,7 @@ import { authTokenContext } from './context/authTokens';
 import CartPage from './pages/Cart/CartPage';
 import CheckoutPage from './pages/Checkout/CheckoutPage';
 import HomePage from './pages/HomePage';
-import InvoicesPage from './pages/Invoice/InvoicesPage';
+import InvoiceListPage from './pages/Invoice/InvoiceListPage';
 import AddProductPage from './pages/Product/AddProductPage';
 import ListProductsPage from './pages/Product/ListProductsPage';
 import ProductDetail from './pages/Product/ProductDetail';
@@ -110,7 +110,8 @@ export function App() {
           <Route path={route.products.detail(":id")} element={<ProductDetail />} />
           <Route path={route.cart} element={<AuthOnlyRoute> <CartPage /> </AuthOnlyRoute>} />
           <Route path={route.checkout} element={<AuthOnlyRoute> <CheckoutPage /> </AuthOnlyRoute>} />
-          <Route path={route.invoices} element={<AuthOnlyRoute> <InvoicesPage /> </AuthOnlyRoute>} />
+          <Route path={route.invoices.index} element={<AuthOnlyRoute> <InvoiceListPage /> </AuthOnlyRoute>} />
+          <Route path={route.invoices.id(":id")} element={<AuthOnlyRoute>  </AuthOnlyRoute>} />
         </Route>
 
       </Routes>

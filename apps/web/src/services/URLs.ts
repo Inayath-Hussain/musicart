@@ -10,5 +10,7 @@ export const apiURLs = {
     addToCart: "/api/cart",
     getCart: "/api/cart",
 
-    placeOrder: "/api/order"
+    placeOrder: "/api/orders",
+    getOrderList: "/api/orders",
+    getOrder: (id: string) => "/api/orders/" + id
 }

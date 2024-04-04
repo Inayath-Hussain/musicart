@@ -13,7 +13,10 @@ export const route = {
 
     checkout: "/checkout",
 
-    invoices: "/invoices",
+    invoices: {
+        index: "/invoices",
+        id: function (order_id: string) { return this.index + "/" + order_id },
+    },
 
     products: {
         index: "/products",

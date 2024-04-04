@@ -1,0 +1,58 @@
+.address {
+    font-size: 0.75rem;
+}
+
+
+.name {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+
+.name_and_address_container {
+    color: #797979;
+}
+
+
+.order_item_container {
+    border-bottom: 2px solid #A6A6A6;
+
+    padding: 1.7rem 1rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    column-gap: 0.6rem;
+}
+
+
+.button {
+    padding: 0.5rem 0.9rem;
+    border-radius: 1rem;
+
+    font-size: 0.85rem;
+    text-wrap: nowrap;
+}
+
+
+
+
+@media screen and (min-width: 768px) {
+    .name {
+        font-size: 1.2rem;
+    }
+
+
+    .address {
+        font-size: 1rem;
+    }
+
+
+    .button {
+        font-size: 1rem;
+        padding: 0.6rem 2rem;
+        border-radius: 0.6rem;
+    }
+}

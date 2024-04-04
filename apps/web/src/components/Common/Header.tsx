@@ -15,7 +15,7 @@ const Header = () => {
 
     const { accessToken, refreshToken, logout } = useContext(authTokenContext);
 
-    const shouldDisplayBrandingHeader = pathname === route.checkout || pathname === route.invoices
+    const shouldDisplayBrandingHeader = pathname === route.checkout || pathname === route.invoices.index
 
     // add's class to hide branding component when user is not in appropriate route
     const mobileBrandingClass = shouldDisplayBrandingHeader ? "" : styles.hide;

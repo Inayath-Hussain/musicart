@@ -19,7 +19,7 @@ const LogoAndLink = () => {
 
 
             {(accessToken || refreshToken) &&
-                <Link to={route.invoices}>
+                <Link to={route.invoices.index}>
                     Invoice
                 </Link>
             }

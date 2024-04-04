@@ -1,17 +1,17 @@
 import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
+import InvoiceIcon from "../Icons/Invoice";
 import HomeLogo from "@web/assets/icons/home.svg";
 import CartLogo from "@web/assets/icons/cart.svg";
-import InvoiceLogo from "@web/assets/icons/invoice.svg";
 import LoginLogo from "@web/assets/icons/account.svg";
 import LogoutLogo from "@web/assets/icons/logout.svg";
 import { authTokenContext } from "@web/context/authTokens";
 import { route } from "@web/routes";
+import { cartSelector } from "@web/store/slices/cartItems";
 
 import styles from "./NavBar.module.css";
-import { useSelector } from "react-redux";
-import { cartSelector } from "@web/store/slices/cartItems";
 
 
 const NavBar = () => {
@@ -34,7 +34,7 @@ const NavBar = () => {
         <footer className={styles.footer_container} >
             <Link to={route.home} className={styles.link} >
                 <div className={getLineClass(route.home)} />
-                <img src={HomeLogo} alt="" />
+                <img src={HomeLogo} alt="" className={styles.image} />
                 <p>Home</p>
             </Link>
 
@@ -42,14 +42,15 @@ const NavBar = () => {
                 <div className={getLineClass(route.cart)} />
 
                 <div className={styles.total_cart_items}>{total_items}</div>
-                <img src={CartLogo} alt="" />
+                <img src={CartLogo} alt="" className={styles.image} />
                 <p>Cart</p>
             </Link>
 
 
-            <Link to={getLink(route.invoices)} className={getInvoiceClass()} >
-                <div className={getLineClass(route.invoices)} />
-                <img src={InvoiceLogo} alt="" />
+            <Link to={getLink(route.invoices.index)} className={getInvoiceClass()} >
+                <div className={getLineClass(route.invoices.index)} />
+                {/* <img src={InvoiceLogo} alt="" /> */}
+                <InvoiceIcon width={24} height={25} />
                 <p>Invoice</p>
             </Link>
 
@@ -57,13 +58,13 @@ const NavBar = () => {
                 (accessToken || refreshToken) ?
                     <button className={`${styles.link} ${styles.button}`} onClick={logout} >
                         <div className={getLineClass(route.users.login)} />
-                        <img src={LogoutLogo} alt="" />
+                        <img src={LogoutLogo} alt="" className={styles.image} />
                         <p>Logout</p>
                     </button>
                     :
                     <Link to={route.users.login} className={styles.link} >
                         <div className={getLineClass(route.users.login)} />
-                        <img src={LoginLogo} alt="" />
+                        <img src={LoginLogo} alt="" className={styles.image} />
                         <p>Login</p>
                     </Link>
             }

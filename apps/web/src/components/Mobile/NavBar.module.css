@@ -33,6 +33,13 @@
     display: none;
 }
 
+
+.image {
+    width: 24px;
+    height: 25px;
+}
+
+
 .line {
     height: 4px;
     background-color: #fff;
