@@ -4,7 +4,7 @@ import Footer from "@web/components/Common/Footer";
 import LogoAndName from "@web/components/Common/LogoAndName";
 import MobileBrandingHeader from "@web/components/Mobile/MobileBrandingHeader";
 
-import styles from "./index.module.css";
+import styles from "./Index.module.css";
 
 
 const UserPage = () => {
