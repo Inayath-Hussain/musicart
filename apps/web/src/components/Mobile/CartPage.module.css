@@ -68,6 +68,19 @@
 }
 
 
+.order_summary_container p {
+    margin: 0.6rem 0;
+}
+
+
+.order_summary_layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 .place_order_button {
     width: 100%;
 }

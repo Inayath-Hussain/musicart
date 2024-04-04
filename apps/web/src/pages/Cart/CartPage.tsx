@@ -143,7 +143,7 @@ const CartPage = () => {
                                 total_items={cartData.total_items}
                                 handleQuantityChange={handleQuantityChange} />
                             :
-                            <MobileCartPage data={cartData.data} quantityOptions={quantityOptions}
+                            <MobileCartPage data={cartData.data} quantityOptions={quantityOptions} handleQuantityChange={handleQuantityChange}
                                 total_amount={cartData.totalAmount} convenienceFee={cartData.convenienceFee} total_items_price={cartData.total_items_price} />
             }
 

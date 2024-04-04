@@ -7,9 +7,9 @@ import { ICartData } from "@web/services/cart/getCartItems";
 interface Iprops {
     data: ICartData["data"]
     quantityOptions: number[]
-    total_items: string
+    total_items: number
 
-    total_items_price: string
+    total_items_price: number
     handleQuantityChange: IhandleQuantityChange
 }
 
@@ -55,8 +55,8 @@ const CartItems: React.FC<Iprops> = ({ data, quantityOptions, total_items, total
                             {/* quantity */}
                             <div>
                                 <p><b>Quantity</b></p>
-                                <select value={Number(p.quantity) > 8 ? 8 : p.quantity}
-                                    onChange={(e) => handleQuantityChange(p.product_id, Number(e.target.value), Number(p.quantity))} >
+                                <select value={p.quantity > 8 ? 8 : p.quantity}
+                                    onChange={(e) => handleQuantityChange(p.product_id, Number(e.target.value), p.quantity)} >
                                     {quantityOptions.map(q => (
                                         <option key={q} value={q}>{q}</option>
                                     ))}

@@ -14,11 +14,11 @@ import { ICartData } from "@web/services/cart/getCartItems";
 interface Iprops {
     data: ICartData["data"]
     quantityOptions: number[]
-    total_items: string
+    total_items: number
 
-    total_items_price: string
-    convenienceFee: string
-    total_amount: string
+    total_items_price: number
+    convenienceFee: number
+    total_amount: number
     handleQuantityChange: IhandleQuantityChange
 }
 

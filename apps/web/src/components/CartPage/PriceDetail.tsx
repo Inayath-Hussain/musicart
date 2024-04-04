@@ -2,9 +2,9 @@ import styles from "./PriceDetail.module.css";
 
 
 interface Iprops {
-    total_items_price: string
-    convenienceFee: string
-    total_amount: string
+    total_items_price: number
+    convenienceFee: number
+    total_amount: number
 }
 
 /**

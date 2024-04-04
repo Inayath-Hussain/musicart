@@ -4,6 +4,7 @@ import { route } from "@web/routes";
 
 import styles from "./CartPage.module.css";
 import { ICartData } from "@web/services/cart/getCartItems";
+import { IhandleQuantityChange } from "@web/pages/Cart/interface";
 
 
 
@@ -11,12 +12,14 @@ interface Iprops {
     quantityOptions: number[]
     data: ICartData["data"]
 
-    convenienceFee: string
-    total_items_price: string
-    total_amount: string
+    convenienceFee: number
+    total_items_price: number
+    total_amount: number
+
+    handleQuantityChange: IhandleQuantityChange
 }
 
-const MobileCartPage: React.FC<Iprops> = ({ total_amount, data }) => {
+const MobileCartPage: React.FC<Iprops> = ({ total_amount, convenienceFee, total_items_price, data, handleQuantityChange, quantityOptions }) => {
 
     return (
         <div className={styles.items_container}>
@@ -40,7 +43,15 @@ const MobileCartPage: React.FC<Iprops> = ({ total_amount, data }) => {
 
                             <div className={styles.quantity}>
                                 <p>Quantity</p>
-                                <p>{p.quantity}</p>
+
+                                <select value={Number(p.quantity) > 8 ? 8 : p.quantity}
+                                    onChange={(e) => handleQuantityChange(p.product_id, Number(e.target.value), Number(p.quantity))} >
+                                    {quantityOptions.map(q => (
+                                        <option key={q} value={q}>{q}</option>
+                                    ))}
+                                </select>
+
+                                {/* <p>{p.quantity}</p> */}
                             </div>
                         </div>
 
@@ -61,7 +72,23 @@ const MobileCartPage: React.FC<Iprops> = ({ total_amount, data }) => {
             <hr className={styles.horizontal_rule} />
 
 
-            <p>Total Amount <b>&#8377; {total_amount}</b></p>
+
+            <div className={styles.order_summary_layout}>
+
+                <div className={styles.order_summary_container}>
+                    <p>Total MRP</p>
+                    <p>Convenience Fee</p>
+                    <p>Total Amount</p>
+                </div>
+
+
+                <div className={styles.order_summary_container}>
+                    <p>&#8377; {total_items_price}</p>
+                    <p>&#8377; {convenienceFee}</p>
+                    <p><b>&#8377; {total_amount}</b></p>
+                </div>
+
+            </div>
 
             <Link to={route.checkout}>
                 <SecondaryButton text="PLACE ORDER" handleClick={() => { }} className={styles.place_order_button} />
