@@ -9,10 +9,6 @@ interface Iprops {
 const BuyNowButton: React.FC<Iprops> = ({ className = "", handleClick }) => {
 
 
-
-    // add to cart
-    // navigate to cart page
-
     return (
         <button onClick={handleClick}
             className={`${styles.buy_now_button} ${className}`}>
