@@ -13,11 +13,15 @@ import styles from "./ProductDetail.module.css";
 
 interface Iprops {
     productDetail: IProductData
-    addToCart: () => Promise<void>
+    addToCart: (buyNow: boolean) => Promise<void>
 }
 
 
 const DesktopProductDetail: React.FC<Iprops> = ({ addToCart, productDetail }) => {
+
+    const cartHandler = () => addToCart(false);
+
+    const buyHandler = () => addToCart(true);
 
     const [bigDisplayImage, setBigDisplayImage] = useState(productDetail.main_image);
 
@@ -78,9 +82,9 @@ const DesktopProductDetail: React.FC<Iprops> = ({ addToCart, productDetail }) =>
                     <p className={styles.big_font}><b>Brand</b> - {productDetail.brand}</p>
 
 
-                    <SecondaryButton text="Add to cart" handleClick={addToCart} className={styles.cart_button} />
+                    <SecondaryButton text="Add to cart" handleClick={cartHandler} className={styles.cart_button} />
 
-                    <BuyNowButton className={styles.buy_button} />
+                    <BuyNowButton handleClick={buyHandler} className={styles.buy_button} />
                 </div>
 
             </div>

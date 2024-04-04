@@ -41,16 +41,18 @@ const ProductDetail = () => {
 
     const productDetail = useMemo(getData, [id, data])
 
-    const addToCart = async () => {
+    const addToCart = async (buyNow: boolean = false) => {
 
         if (accessToken || refreshToken) {
 
             // make api call
             addToCartService({ product_id: productDetail?._id as string })
                 // dispatch
-                .then(result =>
+                .then(result => {
                     dispatch(updateCartItem(1))
-                )
+
+                    if (buyNow === true) navigate(route.checkout)
+                })
                 .catch(err => {
                     switch (true) {
                         case (err instanceof UnauthorizedError):

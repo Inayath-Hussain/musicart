@@ -11,14 +11,18 @@ import ColorAndType from "../Common/ColorAndType";
 
 interface Iprops {
     productDetail: IProductData
-    addToCart: () => Promise<void>
+    addToCart: (buyNow?: boolean) => Promise<void>
 }
 
 const MobileProductDetail: React.FC<Iprops> = ({ productDetail, addToCart }) => {
 
+    const cartHandler = () => addToCart(false)
+
+    const buyHandler = () => addToCart(true)
+
     return (
         <>
-            <BuyNowButton className={styles.buy_now_button_top} />
+            <BuyNowButton handleClick={buyHandler} className={styles.buy_now_button_top} />
 
             {/* images */}
             <Carousel images={[productDetail.main_image, ...productDetail.other_images]} />
@@ -44,9 +48,9 @@ const MobileProductDetail: React.FC<Iprops> = ({ productDetail, addToCart }) => 
             <p><b>Brand</b> - {productDetail.brand}</p>
 
 
-            <SecondaryButton text="Add to cart" handleClick={addToCart} className={styles.add_to_cart_button} />
+            <SecondaryButton text="Add to cart" handleClick={cartHandler} className={styles.add_to_cart_button} />
 
-            <BuyNowButton className={styles.buy_now_button_bottom} />
+            <BuyNowButton handleClick={buyHandler} className={styles.buy_now_button_bottom} />
 
         </>
     );

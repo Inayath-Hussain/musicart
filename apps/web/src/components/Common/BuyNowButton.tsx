@@ -3,15 +3,19 @@ import styles from "./BuyButton.module.css";
 
 interface Iprops {
     className?: string
+    handleClick: () => void
 }
 
-const BuyNowButton: React.FC<Iprops> = ({ className = "" }) => {
+const BuyNowButton: React.FC<Iprops> = ({ className = "", handleClick }) => {
+
+
 
     // add to cart
-    // navigate to carrt page
+    // navigate to cart page
 
     return (
-        <button className={`${styles.buy_now_button} ${className}`}>
+        <button onClick={handleClick}
+            className={`${styles.buy_now_button} ${className}`}>
             Buy Now
         </button>
     );
