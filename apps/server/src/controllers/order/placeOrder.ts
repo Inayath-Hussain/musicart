@@ -47,5 +47,5 @@ export const placeOrderController: RequestHandler<{}, {}, IPlaceOrderBody> = asy
     // delete cart records
     await cartService.deleteCarts(cartIds)
 
-    res.status(200).json({ message: "success" })
+    res.status(201).json({ message: "success" })
 }
