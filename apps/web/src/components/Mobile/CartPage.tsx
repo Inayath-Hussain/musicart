@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+
 import SecondaryButton from "../Common/SecondaryButton";
+import { ICartData } from "@web/services/cart/getCartItems";
+import { IhandleQuantityChange } from "@web/pages/Cart/interface";
 import { route } from "@web/routes";
 
 import styles from "./CartPage.module.css";
-import { ICartData } from "@web/services/cart/getCartItems";
-import { IhandleQuantityChange } from "@web/pages/Cart/interface";
 
 
 
@@ -51,7 +52,6 @@ const MobileCartPage: React.FC<Iprops> = ({ total_amount, convenienceFee, total_
                                     ))}
                                 </select>
 
-                                {/* <p>{p.quantity}</p> */}
                             </div>
                         </div>
 

@@ -12,5 +12,7 @@ export const apiURLs = {
 
     placeOrder: "/api/orders",
     getOrderList: "/api/orders",
-    getOrder: (id: string) => "/api/orders/" + id
+    getOrder: (id: string) => "/api/orders/" + id,
+
+    addfeedback: "/api/feedback"
 }

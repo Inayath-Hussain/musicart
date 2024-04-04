@@ -27,6 +27,10 @@ export const placeOrderService = (payload: IPlaceOrderBody) =>
                         return reject(bodyErrorObj)
 
 
+                    case (ex.response?.status === HttpStatusCode.BadRequest):
+                        const noCartItemsError = new NoCartItems()
+                        return reject(noCartItemsError)
+
                     case (ex.response?.status === HttpStatusCode.Unauthorized):
                         const errorObj = new UnauthorizedError();
                         return reject(errorObj)

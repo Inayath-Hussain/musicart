@@ -10,6 +10,7 @@ import { useGetProductsQuery } from "@web/store/slices/productApi";
 
 
 import styles from "./ListProductsPage.module.css";
+import FeedBack from "@web/components/Desktop/FeedBack";
 
 
 
@@ -37,6 +38,8 @@ const ListProductsPage = () => {
             <hr className={styles.horizontal_rule} />
 
             <ProductsList viewStyle={viewStyle} />
+
+            {isDesktop && <FeedBack />}
         </div>
     );
 }
