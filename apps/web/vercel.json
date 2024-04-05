@@ -1,8 +1,8 @@
 {
     "rewrites": [
         {
-            "source": "/(.*)",
-            "destination": "/"
+            "source": "/api/:path*",
+            "destination": "https://music-cart-deployed-api.vercel.app/:path*"
         }
     ]
 }
