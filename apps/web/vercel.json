@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://music-cart-deployed-api.vercel.app/:path*"
+            "destination": "https://music-cart-deployed-api.vercel.app/api/:path*"
         }
     ]
 }
