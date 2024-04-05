@@ -1,7 +1,5 @@
 {
     "scripts": {
-        "test": "jest --verbose",
-        "start": "node ../../dist/apps/server/server.js",
-        "vercel-build": "cd ../../ && npx nx build server"
+        "test": "jest --verbose"
     }
 }

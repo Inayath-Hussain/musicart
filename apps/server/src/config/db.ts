@@ -5,7 +5,6 @@ import { env } from "./env";
 export const connectToDb = () => {
 
     const URL = env.MONGODB_URI
-    console.log(URL)
 
     return new Promise(async resolve => {
         try {
