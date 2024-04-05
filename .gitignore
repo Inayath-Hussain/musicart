@@ -44,3 +44,4 @@ Thumbs.db
 .env
 firebase-admin-key.json
 apps/server/images
+.vercel
